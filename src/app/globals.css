@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
+/* Class-based dark mode for Tailwind v4 (toggled via .dark on <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
+  --background: #f9fafb;
   --foreground: #171717;
+}
+
+.dark {
+  --background: #0b1220;
+  --foreground: #e5e7eb;
 }
 
 @theme inline {
@@ -12,15 +20,581 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
+
+/* Smooth scrolling & global viewport horizontal lock */
+html {
+  scroll-behavior: smooth;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Responsive-friendly base: stop iOS auto-zoom on inputs and control tap behavior */
+@media (max-width: 640px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  touch-action: manipulation;
+}
+
+/* Prevent flex/grid children from overflowing their container on mobile */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Global media and input boundary containment */
+img, video, canvas, audio, iframe, embed, object {
+  max-width: 100%;
+  height: auto;
+}
+
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+input, textarea, select {
+  max-width: 100%;
+}
+
+/* Critical: stops flex/grid children from blowing out container width on mobile */
+:where(
+  .flex > *,
+  .grid > *,
+  [class*="flex-"] > *
+) {
+  min-width: 0;
+}
+
+/* Smooth touch scrolling for horizontal carousels and strips */
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+/* Word break & text containment utilities */
+.break-anywhere {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* View Transitions API smooth crossfade for theme switches */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.35s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+
+/* Surface color transitions for day/night mode */
+header, aside, .glass-surface, .glass-pill {
+  transition: background-color 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* ── Header: Modern Glassmorphism & High-Performance Micro-Animations ── */
+@keyframes conic-spin {
+  to { transform: rotate(360deg); }
+}
+
+.logo-ring {
+  position: relative;
+  border-radius: 1rem;
+  padding: 2px;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.logo-ring:hover {
+  transform: scale(1.06) rotate(-2deg);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.45);
+}
+
+.logo-ring::before {
+  content: "";
+  position: absolute;
+  inset: -100%;
+  z-index: -1;
+  background: conic-gradient(
+    from 0deg,
+    #38bdf8,
+    #818cf8,
+    #e879f9,
+    #fbbf24,
+    #34d399,
+    #38bdf8
+  );
+  animation: conic-spin 4s linear infinite;
+  will-change: transform;
+}
+
+.dark .logo-ring::before {
+  opacity: 0.95;
+}
+
+@keyframes logo-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-2px) rotate(2deg); }
+}
+
+.animate-logo-float {
+  animation: logo-float 3s ease-in-out infinite;
+}
+
+/* ── Header: animated laser light beam across the bottom edge ── */
+@keyframes hairline-slide {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.animate-hairline-slide {
+  background-size: 200% 100%;
+  animation: hairline-slide 6s linear infinite;
+}
+
+/* ── Header Glass Surface & Action Buttons ── */
+.header-glass-container {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+}
+
+.dark .header-glass-container {
+  background: rgba(11, 18, 32, 0.78);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.35);
+}
+
+.header-action-btn {
+  background: rgba(248, 250, 252, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.header-action-btn:hover {
+  transform: translateY(-1px) scale(1.04);
+  box-shadow: 0 4px 12px -2px rgba(59, 130, 246, 0.2);
+  border-color: rgba(147, 197, 253, 0.8);
+}
+
+.header-action-btn:active {
+  transform: translateY(0) scale(0.95);
+}
+
+.dark .header-action-btn {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dark .header-action-btn:hover {
+  border-color: rgba(96, 165, 250, 0.5);
+  box-shadow: 0 4px 14px -2px rgba(59, 130, 246, 0.35);
+}
+
+/* ── Mode Pill Active Glows ── */
+.mode-glow-study {
+  box-shadow: 0 0 14px 1px rgba(59, 130, 246, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border-color: rgba(96, 165, 250, 0.8) !important;
+}
+
+.dark .mode-glow-study {
+  box-shadow: 0 0 16px 2px rgba(59, 130, 246, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-color: rgba(96, 165, 250, 0.6) !important;
+}
+
+.mode-glow-info {
+  box-shadow: 0 0 14px 1px rgba(16, 185, 129, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border-color: rgba(52, 211, 153, 0.8) !important;
+}
+
+.dark .mode-glow-info {
+  box-shadow: 0 0 16px 2px rgba(16, 185, 129, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-color: rgba(52, 211, 153, 0.6) !important;
+}
+
+.mode-glow-coding {
+  box-shadow: 0 0 14px 1px rgba(168, 85, 247, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border-color: rgba(192, 132, 252, 0.8) !important;
+}
+
+.dark .mode-glow-coding {
+  box-shadow: 0 0 16px 2px rgba(168, 85, 247, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-color: rgba(192, 132, 252, 0.6) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-ring::before,
+  .animate-logo-float,
+  .animate-hairline-slide {
+    animation: none;
+  }
+}
+
+@keyframes fade-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-slide-in {
+  animation: fade-slide-in 0.4s ease-out both;
+}
+
+/* Animated Continuous Live Color Changing exclusively for team NULL & VOID */
+@keyframes continuous-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.animate-continuous-color {
+  background: linear-gradient(
+    90deg,
+    #00f2fe,
+    #3b82f6,
+    #8b5cf6,
+    #ec4899,
+    #f43f5e,
+    #f59e0b,
+    #10b981,
+    #00f2fe
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: continuous-gradient 3.5s linear infinite;
+  display: inline-block;
+  will-change: background-position;
+  transform: translateZ(0);
+}
+
+.animate-glow-border {
+  opacity: 0.9;
+}
+
+
+/* 1. JUIT Buddy: Elegant Royal Aurora Light-Sweep Shimmer */
+@keyframes brand-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.animate-brand-shimmer {
+  background: linear-gradient(
+    110deg,
+    #1d4ed8 0%,
+    #2563eb 20%,
+    #38bdf8 38%,
+    #818cf8 50%,
+    #38bdf8 62%,
+    #2563eb 80%,
+    #1d4ed8 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: brand-shimmer 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  display: inline-block;
+  will-change: background-position;
+  transform: translateZ(0);
+}
+
+.dark .animate-brand-shimmer {
+  background: linear-gradient(
+    110deg,
+    #60a5fa 0%,
+    #38bdf8 20%,
+    #c084fc 38%,
+    #f472b6 50%,
+    #c084fc 62%,
+    #38bdf8 80%,
+    #60a5fa 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 2. AI Tag: Static Crisp Neural Glow */
+.animate-ai-badge {
+  box-shadow: 0 0 6px 1px rgba(99, 102, 241, 0.4);
+  border-color: rgba(129, 140, 248, 0.8);
+}
+
+/* 3. Gemini Flash Lite: Signature Google Gemini Cosmic Gradient */
+@keyframes gemini-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gemini-text {
+  background: linear-gradient(
+    90deg,
+    #4285f4 0%,
+    #7c3aed 30%,
+    #c084fc 50%,
+    #f43f5e 75%,
+    #4285f4 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gemini-shift 3.5s ease-in-out infinite;
+  display: inline-block;
+  will-change: background-position;
+}
+
+@keyframes zap-flicker {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+.animate-zap {
+  display: inline-block;
+  animation: zap-flicker 2.5s ease-in-out infinite;
+}
+
+/* 4. Active Mode Pill Accents */
+.animate-mode-study {
+  box-shadow: 0 0 6px 1px rgba(59, 130, 246, 0.35);
+}
+
+.animate-mode-info {
+  box-shadow: 0 0 6px 1px rgba(16, 185, 129, 0.35);
+}
+
+.animate-mode-coding {
+  box-shadow: 0 0 6px 1px rgba(139, 92, 246, 0.35);
+}
+
+/* ----- High-Performance Aurora Background with Smooth Crossfade -----
+   Day and Night gradients crossfade using GPU-accelerated opacity on a pseudo-element.
+   Zero frame drops, zero snap. */
+.aurora-bg {
+  position: relative;
+  isolation: isolate;
+  background-color: #f8fafc;
+  background-image:
+    radial-gradient(at 15% 15%, rgba(59, 130, 246, 0.12) 0px, transparent 55%),
+    radial-gradient(at 85% 10%, rgba(129, 140, 248, 0.11) 0px, transparent 50%),
+    radial-gradient(at 75% 85%, rgba(20, 184, 166, 0.09) 0px, transparent 55%),
+    radial-gradient(at 20% 80%, rgba(236, 72, 153, 0.06) 0px, transparent 50%);
+  background-attachment: fixed;
+  transition: background-color 0.35s ease;
+}
+
+.aurora-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: #0b1220;
+  background-image:
+    radial-gradient(at 15% 15%, rgba(37, 99, 235, 0.18) 0px, transparent 55%),
+    radial-gradient(at 85% 10%, rgba(99, 102, 241, 0.14) 0px, transparent 50%),
+    radial-gradient(at 75% 85%, rgba(13, 148, 136, 0.12) 0px, transparent 55%),
+    radial-gradient(at 20% 80%, rgba(147, 51, 234, 0.10) 0px, transparent 50%);
+  background-attachment: fixed;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  will-change: opacity;
+}
+
+.dark .aurora-bg::before {
+  opacity: 1;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Hide scrollbar utility for clean mobile & nav strips */
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar,
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Glassmorphism utility classes - hardware accelerated */
+.glass-surface {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transform: translateZ(0);
+}
+
+.dark .glass-surface {
+  background: rgba(11, 18, 32, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transform: translateZ(0);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transform: translateZ(0);
+}
+
+.dark .glass-pill {
+  background: rgba(30, 41, 59, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transform: translateZ(0);
+}
+
+/* ==========================================================================
+   Middle Canvas Creative Effects & Micro-animations
+   ========================================================================== */
+
+/* 1. Smooth Chat Canvas */
+.chat-canvas-grid {
+  /* Clean canvas for 120fps scrolling */
+}
+
+/* 2. Assistant Avatar Ring */
+.animate-avatar-halo {
+  box-shadow: 0 0 8px 1px rgba(59, 130, 246, 0.3);
+}
+
+
+/* 4. Gemini Gradient Typing Dots */
+@keyframes gemini-dot-bounce {
+  0%, 80%, 100% {
+    transform: scale(0.75);
+    opacity: 0.35;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+.animate-gemini-dot-1 {
+  animation: gemini-dot-bounce 1.4s infinite ease-in-out;
+}
+.animate-gemini-dot-2 {
+  animation: gemini-dot-bounce 1.4s infinite ease-in-out 0.2s;
+}
+.animate-gemini-dot-3 {
+  animation: gemini-dot-bounce 1.4s infinite ease-in-out 0.4s;
+}
+
+/* 5. Shimmer progress bar for typing indicator */
+@keyframes shimmer-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer-bar {
+  animation: shimmer-slide 1.8s infinite linear;
+}
+
+/* 6. High-performance Hero Action Cards */
+.hero-action-card {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
+  will-change: transform, box-shadow;
+  transform: translateZ(0);
+}
+
+.hero-action-card:hover {
+  transform: translateY(-3px) translateZ(0);
+}
+

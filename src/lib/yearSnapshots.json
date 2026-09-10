@@ -1,0 +1,1916 @@
+{
+  "23A11": {
+    "MON": [
+      {
+        "slot": 5,
+        "subject": "22B1WCE733",
+        "subject_code": "22B1WCE733",
+        "faculty": "NJP",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "02:00 PM - 02:55 PM",
+        "electiveInfo": {
+          "oe_tag": "CEALL_OE_E2",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 3,
+        "subject": "18B1WPH731",
+        "subject_code": "18B1WPH731",
+        "faculty": "RRS",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "12:00 PM - 12:55 PM",
+        "electiveInfo": {
+          "oe_tag": "PMSALL_OE_E1",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 3,
+        "subject": "24B1WHS732",
+        "subject_code": "24B1WHS732",
+        "faculty": "RTK,ASA",
+        "room": "CR09",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "12:00 PM - 12:55 PM",
+        "electiveInfo": {
+          "oe_tag": "HSS_ALL_OE_E1",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 3,
+        "subject": "20B1WEC731",
+        "subject_code": "20B1WEC731",
+        "faculty": "EMP",
+        "room": "CR11",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "12:00 PM - 12:55 PM",
+        "electiveInfo": {
+          "oe_tag": "ECALL_OE_E1",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 5,
+        "subject": "19B1WBT732",
+        "subject_code": "19B1WBT732",
+        "faculty": "UDB",
+        "room": "CR01",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "02:00 PM - 02:55 PM",
+        "electiveInfo": {
+          "oe_tag": "BIO_OE_E2",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 3,
+        "subject": "21B1WBT731",
+        "subject_code": "21B1WBT731",
+        "faculty": "TYN",
+        "room": "CR02",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "12:00 PM - 12:55 PM",
+        "electiveInfo": {
+          "oe_tag": "BIO_OE_E1",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 5,
+        "subject": "20B1WEC734",
+        "subject_code": "20B1WEC734",
+        "faculty": "PDG",
+        "room": "CR04",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "02:00 PM - 02:55 PM",
+        "electiveInfo": {
+          "oe_tag": "ECEALL_OE_E2",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 6,
+        "subject": "18B1WEC847",
+        "subject_code": "18B1WEC847",
+        "faculty": "PRG",
+        "room": "CR07",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "03:00 PM - 03:55 PM"
+      },
+      {
+        "slot": 1,
+        "subject": "18B1WCI738",
+        "subject_code": "18B1WCI738",
+        "faculty": "AYS",
+        "room": "CR10",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM"
+      }
+    ],
+    "TUE": [
+      {
+        "slot": 1,
+        "subject": "19B1WBT732",
+        "subject_code": "19B1WBT732",
+        "faculty": "UDB",
+        "room": "CR03",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM",
+        "electiveInfo": {
+          "oe_tag": "BIO_OE_E2",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 1,
+        "subject": "22B1WMA731",
+        "subject_code": "22B1WMA731",
+        "faculty": "RAD",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM",
+        "electiveInfo": {
+          "oe_tag": "MAT_ALL_OE_E2",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 8,
+        "subject": "18B11MA313",
+        "subject_code": "18B11MA313",
+        "faculty": "MDS",
+        "room": "CABIN",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM"
+      },
+      {
+        "slot": 6,
+        "subject": "18B1WEC847",
+        "subject_code": "18B1WEC847",
+        "faculty": "PRG",
+        "room": "TR3",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "03:00 PM - 03:55 PM"
+      }
+    ],
+    "WED": [
+      {
+        "slot": 5,
+        "subject": "22B1WCE731",
+        "subject_code": "22B1WCE731",
+        "faculty": "ABJ",
+        "room": "CR11",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "02:00 PM - 02:55 PM",
+        "electiveInfo": {
+          "oe_tag": "CEALL_OE_E1",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 1,
+        "subject": "22B1WMA731",
+        "subject_code": "22B1WMA731",
+        "faculty": "RAD",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM",
+        "electiveInfo": {
+          "oe_tag": "MAT_ALL_OE_E2",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 5,
+        "subject": "24B1WHS732",
+        "subject_code": "24B1WHS732",
+        "faculty": "RTK,ASA",
+        "room": "LT3",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "02:00 PM - 02:55 PM",
+        "electiveInfo": {
+          "oe_tag": "HSS_ALL_OE_E1",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 5,
+        "subject": "20B1WEC731",
+        "subject_code": "20B1WEC731",
+        "faculty": "EMP",
+        "room": "CR04",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "02:00 PM - 02:55 PM",
+        "electiveInfo": {
+          "oe_tag": "ECALL_OE_E1",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 1,
+        "subject": "20B1WEC734",
+        "subject_code": "20B1WEC734",
+        "faculty": "PDG",
+        "room": "CR07",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM",
+        "electiveInfo": {
+          "oe_tag": "ECEALL_OE_E2",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 8,
+        "subject": "18B11MA313",
+        "subject_code": "18B11MA313",
+        "faculty": "MDS",
+        "room": "CABIN",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM"
+      },
+      {
+        "slot": 2,
+        "subject": "18B1WCI738",
+        "subject_code": "18B1WCI738",
+        "faculty": "AYS",
+        "room": "CR03",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "11:00 AM - 11:55 AM"
+      }
+    ],
+    "THU": [
+      {
+        "slot": 7,
+        "subject": "22B1WPH731",
+        "subject_code": "22B1WPH731",
+        "faculty": "SBA",
+        "room": "CR08",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "04:00 PM - 04:55 PM",
+        "electiveInfo": {
+          "oe_tag": "PMSALL_OE_E2",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 0,
+        "subject": "18B1WPH731",
+        "subject_code": "18B1WPH731",
+        "faculty": "RRS",
+        "room": "CR07",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM",
+        "electiveInfo": {
+          "oe_tag": "PMSALL_OE_E1",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 3,
+        "subject": "22B1WCE731",
+        "subject_code": "22B1WCE731",
+        "faculty": "ABJ",
+        "room": "CR04",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "12:00 PM - 12:55 PM",
+        "electiveInfo": {
+          "oe_tag": "CEALL_OE_E1",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 7,
+        "subject": "19B1WBT732",
+        "subject_code": "19B1WBT732",
+        "faculty": "UDB",
+        "room": "CR01",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "04:00 PM - 04:55 PM",
+        "electiveInfo": {
+          "oe_tag": "BIO_OE_E2",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 0,
+        "subject": "24B1WHS732",
+        "subject_code": "24B1WHS732",
+        "faculty": "RTK,ASA",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM",
+        "electiveInfo": {
+          "oe_tag": "HSS_ALL_OE_E1",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 3,
+        "subject": "21B1WBT731",
+        "subject_code": "21B1WBT731",
+        "faculty": "TYN",
+        "room": "CR02",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "12:00 PM - 12:55 PM",
+        "electiveInfo": {
+          "oe_tag": "BIO_OE_E1",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 8,
+        "subject": "18B11MA313",
+        "subject_code": "18B11MA313",
+        "faculty": "MDS",
+        "room": "CABIN",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM"
+      },
+      {
+        "slot": 6,
+        "subject": "18B1WEC847",
+        "subject_code": "18B1WEC847",
+        "faculty": "PRG",
+        "room": "CR08",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "03:00 PM - 03:55 PM"
+      },
+      {
+        "slot": 2,
+        "subject": "18B1WCI738",
+        "subject_code": "18B1WCI738",
+        "faculty": "AYS",
+        "room": "LT3",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "11:00 AM - 11:55 AM"
+      },
+      {
+        "slot": 3,
+        "subject": "20B1WEC731",
+        "subject_code": "20B1WEC731",
+        "faculty": "EMP",
+        "room": "CR10",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "12:00 PM - 12:55 PM",
+        "electiveInfo": {
+          "oe_tag": "ECALL_OE_E1",
+          "type": "open_elective"
+        }
+      }
+    ],
+    "FRI": [
+      {
+        "slot": 1,
+        "subject": "22B1WCE733",
+        "subject_code": "22B1WCE733",
+        "faculty": "NJP",
+        "room": "CR04",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM",
+        "electiveInfo": {
+          "oe_tag": "CEALL_OE_E2",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 4,
+        "subject": "22B1WPH731",
+        "subject_code": "22B1WPH731",
+        "faculty": "SBA",
+        "room": "CR08",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "01:00 PM - 01:55 PM",
+        "electiveInfo": {
+          "oe_tag": "PMSALL_OE_E2",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 1,
+        "subject": "22B1WMA731",
+        "subject_code": "22B1WMA731",
+        "faculty": "RAD",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM",
+        "electiveInfo": {
+          "oe_tag": "MAT_ALL_OE_E2",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 4,
+        "subject": "20B1WEC734",
+        "subject_code": "20B1WEC734",
+        "faculty": "PDG",
+        "room": "CR04",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "01:00 PM - 01:55 PM",
+        "electiveInfo": {
+          "oe_tag": "ECEALL_OE_E2",
+          "type": "open_elective"
+        }
+      }
+    ],
+    "SAT": [
+      {
+        "slot": 0,
+        "subject": "22B1WPH731",
+        "subject_code": "22B1WPH731",
+        "faculty": "SBA",
+        "room": "CR08",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM",
+        "electiveInfo": {
+          "oe_tag": "PMSALL_OE_E2",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 0,
+        "subject": "22B1WCE733",
+        "subject_code": "22B1WCE733",
+        "faculty": "NJP",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM",
+        "electiveInfo": {
+          "oe_tag": "CEALL_OE_E2",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 2,
+        "subject": "18B1WPH731",
+        "subject_code": "18B1WPH731",
+        "faculty": "RRS",
+        "room": "CR04",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "11:00 AM - 11:55 AM",
+        "electiveInfo": {
+          "oe_tag": "PMSALL_OE_E1",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 2,
+        "subject": "22B1WCE731",
+        "subject_code": "22B1WCE731",
+        "faculty": "ABJ",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "11:00 AM - 11:55 AM",
+        "electiveInfo": {
+          "oe_tag": "CEALL_OE_E1",
+          "type": "open_elective"
+        }
+      },
+      {
+        "slot": 2,
+        "subject": "21B1WBT731",
+        "subject_code": "21B1WBT731",
+        "faculty": "TYN",
+        "room": "CR02",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "11:00 AM - 11:55 AM",
+        "electiveInfo": {
+          "oe_tag": "BIO_OE_E1",
+          "type": "open_elective"
+        }
+      }
+    ]
+  },
+  "24A11": {
+    "MON": [
+      {
+        "slot": 2,
+        "subject": "HSNEW1",
+        "subject_code": "HSNEW1",
+        "faculty": "NJL",
+        "room": "LT3",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "11:00 AM - 11:55 AM"
+      },
+      {
+        "slot": 5,
+        "subject": "24B11HS513",
+        "subject_code": "24B11HS513",
+        "faculty": "BKP",
+        "room": "CR08",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "02:00 PM - 02:55 PM"
+      },
+      {
+        "slot": 6,
+        "subject": "25B1WCI574",
+        "subject_code": "25B1WCI574",
+        "faculty": "PKR",
+        "room": "CL04",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "03:00 PM - 03:55 PM",
+        "electiveInfo": {
+          "pe": 1,
+          "choice": 1,
+          "type": "lab"
+        }
+      },
+      {
+        "slot": 7,
+        "subject": "25B1WCI574",
+        "subject_code": "25B1WCI574",
+        "faculty": "PKR",
+        "room": "CL04",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "04:00 PM - 04:55 PM",
+        "electiveInfo": {
+          "pe": 1,
+          "choice": 1,
+          "type": "lab"
+        }
+      },
+      {
+        "slot": 6,
+        "subject": "25B1WCI576",
+        "subject_code": "25B1WCI576",
+        "faculty": "AYS",
+        "room": "DLAB",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "03:00 PM - 03:55 PM",
+        "electiveInfo": {
+          "pe": 1,
+          "choice": 2,
+          "type": "lab"
+        }
+      },
+      {
+        "slot": 7,
+        "subject": "25B1WCI576",
+        "subject_code": "25B1WCI576",
+        "faculty": "AYS",
+        "room": "DLAB",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "04:00 PM - 04:55 PM",
+        "electiveInfo": {
+          "pe": 1,
+          "choice": 2,
+          "type": "lab"
+        }
+      },
+      {
+        "slot": 0,
+        "subject": "26PMS301",
+        "subject_code": "26PMS301",
+        "faculty": "VSA",
+        "room": "CR04",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM"
+      },
+      {
+        "slot": 6,
+        "subject": "25B1WCI573",
+        "subject_code": "25B1WCI573",
+        "faculty": "PDN",
+        "room": "CL1B",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "03:00 PM - 03:55 PM",
+        "electiveInfo": {
+          "pe": 1,
+          "choice": 3,
+          "type": "lab"
+        }
+      },
+      {
+        "slot": 7,
+        "subject": "25B1WCI573",
+        "subject_code": "25B1WCI573",
+        "faculty": "PDN",
+        "room": "CL1B",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "04:00 PM - 04:55 PM",
+        "electiveInfo": {
+          "pe": 1,
+          "choice": 3,
+          "type": "lab"
+        }
+      },
+      {
+        "slot": 0,
+        "subject": "26PMS302",
+        "subject_code": "26PMS302",
+        "faculty": "SKK",
+        "room": "CR11",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM"
+      },
+      {
+        "slot": 0,
+        "subject": "26PMS303",
+        "subject_code": "26PMS303",
+        "faculty": "SKT",
+        "room": "CR08",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM"
+      },
+      {
+        "slot": 0,
+        "subject": "26PMS304",
+        "subject_code": "26PMS304",
+        "faculty": "RRS",
+        "room": "CR07",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM"
+      },
+      {
+        "slot": 1,
+        "subject": "25B1WCI538",
+        "subject_code": "25B1WCI538",
+        "faculty": "AKJ",
+        "room": "LT3",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM",
+        "electiveInfo": {
+          "pe": 2,
+          "choice": 1,
+          "type": "lecture"
+        }
+      },
+      {
+        "slot": 3,
+        "subject": "25B11CI514",
+        "subject_code": "25B11CI514",
+        "faculty": "SDH",
+        "room": "CR10",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "12:00 PM - 12:55 PM"
+      },
+      {
+        "slot": 0,
+        "subject": "26PMS305",
+        "subject_code": "26PMS305",
+        "faculty": "PBB",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM"
+      },
+      {
+        "slot": 0,
+        "subject": "26PMS306",
+        "subject_code": "26PMS306",
+        "faculty": "HAZ",
+        "room": "CR03",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM"
+      },
+      {
+        "slot": 1,
+        "subject": "25B1WCI539",
+        "subject_code": "25B1WCI539",
+        "faculty": "ATA",
+        "room": "LT2",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM",
+        "electiveInfo": {
+          "pe": 2,
+          "choice": 2,
+          "type": "lecture"
+        }
+      },
+      {
+        "slot": 1,
+        "subject": "25B1WCI541",
+        "subject_code": "25B1WCI541",
+        "faculty": "RBT",
+        "room": "DLC",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM",
+        "electiveInfo": {
+          "pe": 2,
+          "choice": 3,
+          "type": "lecture"
+        }
+      }
+    ],
+    "TUE": [
+      {
+        "slot": 2,
+        "subject": "25B1WCI538",
+        "subject_code": "25B1WCI538",
+        "faculty": "AKJ",
+        "room": "CR06",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "11:00 AM - 11:55 AM",
+        "electiveInfo": {
+          "pe": 2,
+          "choice": 1,
+          "type": "lecture"
+        }
+      },
+      {
+        "slot": 2,
+        "subject": "25B1WCI539",
+        "subject_code": "25B1WCI539",
+        "faculty": "ATA",
+        "room": "CR01",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "11:00 AM - 11:55 AM",
+        "electiveInfo": {
+          "pe": 2,
+          "choice": 2,
+          "type": "lecture"
+        }
+      },
+      {
+        "slot": 2,
+        "subject": "25B1WCI541",
+        "subject_code": "25B1WCI541",
+        "faculty": "RBT",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "11:00 AM - 11:55 AM",
+        "electiveInfo": {
+          "pe": 2,
+          "choice": 3,
+          "type": "lecture"
+        }
+      },
+      {
+        "slot": 8,
+        "subject": "26PMS301",
+        "subject_code": "26PMS301",
+        "faculty": "VSA",
+        "room": "LT3",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM"
+      },
+      {
+        "slot": 8,
+        "subject": "26PMS302",
+        "subject_code": "26PMS302",
+        "faculty": "SKK",
+        "room": "CR09",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM"
+      },
+      {
+        "slot": 8,
+        "subject": "26PMS303",
+        "subject_code": "26PMS303",
+        "faculty": "SKT",
+        "room": "CR08",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM"
+      },
+      {
+        "slot": 8,
+        "subject": "26PMS304",
+        "subject_code": "26PMS304",
+        "faculty": "RRS",
+        "room": "CR07",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM"
+      },
+      {
+        "slot": 8,
+        "subject": "26PMS305",
+        "subject_code": "26PMS305",
+        "faculty": "PBB",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM"
+      },
+      {
+        "slot": 0,
+        "subject": "25B11CI514",
+        "subject_code": "25B11CI514",
+        "faculty": "SDH",
+        "room": "CR06",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM"
+      },
+      {
+        "slot": 8,
+        "subject": "26PMS306",
+        "subject_code": "26PMS306",
+        "faculty": "HAZ",
+        "room": "CR10",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM"
+      },
+      {
+        "slot": 1,
+        "subject": "HSNEW1",
+        "subject_code": "HSNEW1",
+        "faculty": "NJL",
+        "room": "CR01",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM"
+      },
+      {
+        "slot": 3,
+        "subject": "25B11CI515",
+        "subject_code": "25B11CI515",
+        "faculty": "HRI",
+        "room": "CR08/ DLC",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "12:00 PM - 12:55 PM"
+      },
+      {
+        "slot": 6,
+        "subject": "25B1WCI578",
+        "subject_code": "25B1WCI578",
+        "faculty": "AKA",
+        "room": "CL04",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "03:00 PM - 03:55 PM",
+        "electiveInfo": {
+          "pe": 2,
+          "choice": 1,
+          "type": "lab"
+        }
+      },
+      {
+        "slot": 7,
+        "subject": "25B1WCI578",
+        "subject_code": "25B1WCI578",
+        "faculty": "AKA",
+        "room": "CL04",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "04:00 PM - 04:55 PM",
+        "electiveInfo": {
+          "pe": 2,
+          "choice": 1,
+          "type": "lab"
+        }
+      },
+      {
+        "slot": 6,
+        "subject": "25B1WCI579",
+        "subject_code": "25B1WCI579",
+        "faculty": "ATA",
+        "room": "CL31",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "03:00 PM - 03:55 PM",
+        "electiveInfo": {
+          "pe": 2,
+          "choice": 2,
+          "type": "lab"
+        }
+      },
+      {
+        "slot": 7,
+        "subject": "25B1WCI579",
+        "subject_code": "25B1WCI579",
+        "faculty": "ATA",
+        "room": "CL31",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "04:00 PM - 04:55 PM",
+        "electiveInfo": {
+          "pe": 2,
+          "choice": 2,
+          "type": "lab"
+        }
+      },
+      {
+        "slot": 6,
+        "subject": "25B1WCI581",
+        "subject_code": "25B1WCI581",
+        "faculty": "RBT",
+        "room": "ALAB2",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "03:00 PM - 03:55 PM",
+        "electiveInfo": {
+          "pe": 2,
+          "choice": 3,
+          "type": "lab"
+        }
+      },
+      {
+        "slot": 7,
+        "subject": "25B1WCI581",
+        "subject_code": "25B1WCI581",
+        "faculty": "RBT",
+        "room": "ALAB2",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "04:00 PM - 04:55 PM",
+        "electiveInfo": {
+          "pe": 2,
+          "choice": 3,
+          "type": "lab"
+        }
+      }
+    ],
+    "WED": [
+      {
+        "slot": 8,
+        "subject": "25B1WCI534",
+        "subject_code": "25B1WCI534",
+        "faculty": "PKR",
+        "room": "CR01",
+        "classType": "T",
+        "color": "yellow",
+        "isLab": false,
+        "isTutorial": true,
+        "time": "05:00 PM - 05:55 PM"
+      },
+      {
+        "slot": 6,
+        "subject": "TCI552",
+        "subject_code": "TCI552",
+        "faculty": "VKB",
+        "room": "ECL5",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "03:00 PM - 03:55 PM",
+        "electiveInfo": {
+          "pe": 1,
+          "choice": 4,
+          "type": "lab"
+        }
+      },
+      {
+        "slot": 7,
+        "subject": "TCI552",
+        "subject_code": "TCI552",
+        "faculty": "VKB",
+        "room": "ECL5",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "04:00 PM - 04:55 PM",
+        "electiveInfo": {
+          "pe": 1,
+          "choice": 4,
+          "type": "lab"
+        }
+      },
+      {
+        "slot": 4,
+        "subject": "26PMS302",
+        "subject_code": "26PMS302",
+        "faculty": "SKK",
+        "room": "CR01",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "01:00 PM - 01:55 PM"
+      },
+      {
+        "slot": 5,
+        "subject": "25B1WCI536",
+        "subject_code": "25B1WCI536",
+        "faculty": "AYS",
+        "room": "CR08",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "02:00 PM - 02:55 PM",
+        "electiveInfo": {
+          "pe": 1,
+          "choice": 2,
+          "type": "lecture"
+        }
+      },
+      {
+        "slot": 5,
+        "subject": "25B1WCI533",
+        "subject_code": "25B1WCI533",
+        "faculty": "PDN",
+        "room": "CR07",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "02:00 PM - 02:55 PM",
+        "electiveInfo": {
+          "pe": 1,
+          "choice": 3,
+          "type": "lecture"
+        }
+      },
+      {
+        "slot": 0,
+        "subject": "25B17CI576",
+        "subject_code": "25B17CI576",
+        "faculty": "PLK",
+        "room": "CL07",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM"
+      },
+      {
+        "slot": 1,
+        "subject": "25B17CI576",
+        "subject_code": "25B17CI576",
+        "faculty": "PLK",
+        "room": "CL07",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM"
+      },
+      {
+        "slot": 5,
+        "subject": "25B1WCI542",
+        "subject_code": "25B1WCI542",
+        "faculty": "VKB",
+        "room": "CR06",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "02:00 PM - 02:55 PM",
+        "electiveInfo": {
+          "pe": 1,
+          "choice": 4,
+          "type": "lecture"
+        }
+      }
+    ],
+    "THU": [
+      {
+        "slot": 1,
+        "subject": "25B11CI515",
+        "subject_code": "25B11CI515",
+        "faculty": "HRI",
+        "room": "CR06",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM"
+      },
+      {
+        "slot": 3,
+        "subject": "25B11CI575",
+        "subject_code": "25B11CI575",
+        "faculty": "HRI",
+        "room": "CR17",
+        "classType": "T",
+        "color": "yellow",
+        "isLab": false,
+        "isTutorial": true,
+        "time": "12:00 PM - 12:55 PM"
+      },
+      {
+        "slot": 8,
+        "subject": "26PMS301",
+        "subject_code": "26PMS301",
+        "faculty": "VSA",
+        "room": "LT3",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM"
+      },
+      {
+        "slot": 8,
+        "subject": "26PMS303",
+        "subject_code": "26PMS303",
+        "faculty": "SKT",
+        "room": "CR08",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM"
+      },
+      {
+        "slot": 8,
+        "subject": "26PMS304",
+        "subject_code": "26PMS304",
+        "faculty": "RRS",
+        "room": "CR07",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM"
+      },
+      {
+        "slot": 2,
+        "subject": "24B11HS513",
+        "subject_code": "24B11HS513",
+        "faculty": "BKP",
+        "room": "CR04",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "11:00 AM - 11:55 AM"
+      },
+      {
+        "slot": 8,
+        "subject": "26PMS305",
+        "subject_code": "26PMS305",
+        "faculty": "PBB",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM"
+      },
+      {
+        "slot": 8,
+        "subject": "26PMS306",
+        "subject_code": "26PMS306",
+        "faculty": "HAZ",
+        "room": "CR10",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM"
+      },
+      {
+        "slot": 6,
+        "subject": "25B17CI578",
+        "subject_code": "25B17CI578",
+        "faculty": "FSL",
+        "room": "CL04",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "03:00 PM - 03:55 PM"
+      },
+      {
+        "slot": 7,
+        "subject": "25B17CI578",
+        "subject_code": "25B17CI578",
+        "faculty": "FSL",
+        "room": "CL04",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "04:00 PM - 04:55 PM"
+      }
+    ],
+    "FRI": [
+      {
+        "slot": 2,
+        "subject": "25B11CI574",
+        "subject_code": "25B11CI574",
+        "faculty": "AKA",
+        "room": "CL1A",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "11:00 AM - 11:55 AM"
+      },
+      {
+        "slot": 3,
+        "subject": "25B11CI574",
+        "subject_code": "25B11CI574",
+        "faculty": "AKA",
+        "room": "CL1A",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "12:00 PM - 12:55 PM"
+      },
+      {
+        "slot": 8,
+        "subject": "25B1WCI534",
+        "subject_code": "25B1WCI534",
+        "faculty": "PKR",
+        "room": "CR01",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM",
+        "electiveInfo": {
+          "pe": 1,
+          "choice": 1,
+          "type": "lecture"
+        }
+      },
+      {
+        "slot": 6,
+        "subject": "25B11CI575",
+        "subject_code": "25B11CI575",
+        "faculty": "HRI",
+        "room": "CL1A",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "03:00 PM - 03:55 PM"
+      },
+      {
+        "slot": 7,
+        "subject": "25B11CI575",
+        "subject_code": "25B11CI575",
+        "faculty": "HRI",
+        "room": "CL1A",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "04:00 PM - 04:55 PM"
+      },
+      {
+        "slot": 8,
+        "subject": "25B1WCI536",
+        "subject_code": "25B1WCI536",
+        "faculty": "AYS",
+        "room": "CR03",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM",
+        "electiveInfo": {
+          "pe": 1,
+          "choice": 2,
+          "type": "lecture"
+        }
+      },
+      {
+        "slot": 8,
+        "subject": "25B1WCI533",
+        "subject_code": "25B1WCI533",
+        "faculty": "PDN",
+        "room": "CR04",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM",
+        "electiveInfo": {
+          "pe": 1,
+          "choice": 3,
+          "type": "lecture"
+        }
+      },
+      {
+        "slot": 0,
+        "subject": "25B11CI514",
+        "subject_code": "25B11CI514",
+        "faculty": "SDH",
+        "room": "CR02",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM"
+      },
+      {
+        "slot": 1,
+        "subject": "25B11CI515",
+        "subject_code": "25B11CI515",
+        "faculty": "HRI",
+        "room": "CR02",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM"
+      },
+      {
+        "slot": 8,
+        "subject": "25B1WCI542",
+        "subject_code": "25B1WCI542",
+        "faculty": "VKB",
+        "room": "CR06",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "05:00 PM - 05:55 PM",
+        "electiveInfo": {
+          "pe": 1,
+          "choice": 4,
+          "type": "lecture"
+        }
+      }
+    ],
+    "SAT": [
+      {
+        "slot": 0,
+        "subject": "TCI554",
+        "subject_code": "TCI554",
+        "faculty": "EMP",
+        "room": "ECL3",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM",
+        "electiveInfo": {
+          "pe": 2,
+          "choice": 4,
+          "type": "lab"
+        }
+      },
+      {
+        "slot": 1,
+        "subject": "TCI554",
+        "subject_code": "TCI554",
+        "faculty": "EMP",
+        "room": "ECL3",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM",
+        "electiveInfo": {
+          "pe": 2,
+          "choice": 4,
+          "type": "lab"
+        }
+      }
+    ]
+  },
+  "25A11": {
+    "MON": [
+      {
+        "slot": 4,
+        "subject": "25B11HS311",
+        "subject_code": "25B11HS311",
+        "faculty": "TGM",
+        "room": "CR2",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "01:00 PM - 01:55 PM"
+      },
+      {
+        "slot": 2,
+        "subject": "25B11MA314",
+        "subject_code": "25B11MA314",
+        "faculty": "RAD",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "11:00 AM - 11:55 AM"
+      },
+      {
+        "slot": 6,
+        "subject": "25B17CI379",
+        "subject_code": "25B17CI379",
+        "faculty": "PKG",
+        "room": "CL32",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "03:00 PM - 03:55 PM"
+      },
+      {
+        "slot": 7,
+        "subject": "25B17CI379",
+        "subject_code": "25B17CI379",
+        "faculty": "PKG",
+        "room": "CL32",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "04:00 PM - 04:55 PM"
+      },
+      {
+        "slot": 0,
+        "subject": "25B17CI375",
+        "subject_code": "25B17CI375",
+        "faculty": "DSA",
+        "room": "CL52",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM"
+      },
+      {
+        "slot": 1,
+        "subject": "25B17CI375",
+        "subject_code": "25B17CI375",
+        "faculty": "DSA",
+        "room": "CL52",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM"
+      },
+      {
+        "slot": 5,
+        "subject": "25B11CI318",
+        "subject_code": "25B11CI318",
+        "faculty": "MNK",
+        "room": "LT2",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "02:00 PM - 02:55 PM"
+      }
+    ],
+    "TUE": [
+      {
+        "slot": 5,
+        "subject": "25B11HS311",
+        "subject_code": "25B11HS311",
+        "faculty": "JBSW_RS6",
+        "room": "CR12",
+        "classType": "T",
+        "color": "yellow",
+        "isLab": false,
+        "isTutorial": true,
+        "time": "02:00 PM - 02:55 PM"
+      },
+      {
+        "slot": 2,
+        "subject": "18B11CI313",
+        "subject_code": "18B11CI313",
+        "faculty": "AVA",
+        "room": "CR04",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "11:00 AM - 11:55 AM"
+      },
+      {
+        "slot": 0,
+        "subject": "25B17CI376",
+        "subject_code": "25B17CI376",
+        "faculty": "DGA",
+        "room": "CL81",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM"
+      },
+      {
+        "slot": 1,
+        "subject": "25B17CI376",
+        "subject_code": "25B17CI376",
+        "faculty": "DGA",
+        "room": "CL81",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM"
+      },
+      {
+        "slot": 6,
+        "subject": "18B17CI373",
+        "subject_code": "18B17CI373",
+        "faculty": "AVA",
+        "room": "CL82",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "03:00 PM - 03:55 PM"
+      },
+      {
+        "slot": 7,
+        "subject": "18B17CI373",
+        "subject_code": "18B17CI373",
+        "faculty": "AVA",
+        "room": "CL82",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "04:00 PM - 04:55 PM"
+      }
+    ],
+    "WED": [
+      {
+        "slot": 4,
+        "subject": "25B11HS311",
+        "subject_code": "25B11HS311",
+        "faculty": "TGM",
+        "room": "CR02",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "01:00 PM - 01:55 PM"
+      },
+      {
+        "slot": 5,
+        "subject": "25B11MA314",
+        "subject_code": "25B11MA314",
+        "faculty": "RAD",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "02:00 PM - 02:55 PM"
+      },
+      {
+        "slot": 2,
+        "subject": "25B11CI318",
+        "subject_code": "25B11CI318",
+        "faculty": "MNK",
+        "room": "CR09",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "11:00 AM - 11:55 AM"
+      },
+      {
+        "slot": 6,
+        "subject": "25B17CI380",
+        "subject_code": "25B17CI380",
+        "faculty": "MNK",
+        "room": "CL92",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "03:00 PM - 03:55 PM"
+      },
+      {
+        "slot": 7,
+        "subject": "25B17CI380",
+        "subject_code": "25B17CI380",
+        "faculty": "MNK",
+        "room": "CL92",
+        "classType": "P",
+        "color": "lightgreen",
+        "isLab": true,
+        "isTutorial": false,
+        "time": "04:00 PM - 04:55 PM"
+      },
+      {
+        "slot": 1,
+        "subject": "25B11CI315",
+        "subject_code": "25B11CI315",
+        "faculty": "ARV",
+        "room": "DLC,CR06",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM"
+      }
+    ],
+    "THU": [
+      {
+        "slot": 4,
+        "subject": "18B11CI313",
+        "subject_code": "18B11CI313",
+        "faculty": "AVA",
+        "room": "CR07,DLC",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "01:00 PM - 01:55 PM"
+      },
+      {
+        "slot": 5,
+        "subject": "25B11MA314",
+        "subject_code": "25B11MA314",
+        "faculty": "RAD",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "02:00 PM - 02:55 PM"
+      },
+      {
+        "slot": 1,
+        "subject": "25B11CI318",
+        "subject_code": "25B11CI318",
+        "faculty": "MNK",
+        "room": "CR03",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "10:00 AM - 10:55 AM"
+      },
+      {
+        "slot": 0,
+        "subject": "25B17CI375",
+        "subject_code": "25B17CI375",
+        "faculty": "DSA",
+        "room": "CR08",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "09:00 AM - 09:55 AM"
+      },
+      {
+        "slot": 2,
+        "subject": "25B11CI315",
+        "subject_code": "25B11CI315",
+        "faculty": "ARV",
+        "room": "CR02",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "11:00 AM - 11:55 AM"
+      },
+      {
+        "slot": 6,
+        "subject": "25B11MA314",
+        "subject_code": "25B11MA314",
+        "faculty": "MAT_RS8",
+        "room": "CR19",
+        "classType": "T",
+        "color": "yellow",
+        "isLab": false,
+        "isTutorial": true,
+        "time": "03:00 PM - 03:55 PM"
+      }
+    ],
+    "FRI": [
+      {
+        "slot": 4,
+        "subject": "18B11CI313",
+        "subject_code": "18B11CI313",
+        "faculty": "AVA",
+        "room": "CR10",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "01:00 PM - 01:55 PM"
+      },
+      {
+        "slot": 5,
+        "subject": "25B11CI315",
+        "subject_code": "25B11CI315",
+        "faculty": "ARV",
+        "room": "CR05",
+        "classType": "L",
+        "color": "lightblue",
+        "isLab": false,
+        "isTutorial": false,
+        "time": "02:00 PM - 02:55 PM"
+      },
+      {
+        "slot": 6,
+        "subject": "25B11CI318",
+        "subject_code": "25B11CI318",
+        "faculty": "MNK",
+        "room": "TR6",
+        "classType": "T",
+        "color": "yellow",
+        "isLab": false,
+        "isTutorial": true,
+        "time": "03:00 PM - 03:55 PM"
+      }
+    ],
+    "SAT": []
+  }
+}
