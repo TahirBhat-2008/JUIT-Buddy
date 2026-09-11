@@ -3,11 +3,12 @@
 import { useState } from "react";
 import SyllabusDirectory from "@/components/SyllabusDirectory";
 import JuitWebsitesDirectory from "@/components/JuitWebsitesDirectory";
+import EmergencyContacts from "@/components/EmergencyContacts";
 import RulesAndRegulations from "@/components/RulesAndRegulations";
 import GpaCalculator from "@/components/GpaCalculator";
 import BusTimetable from "@/components/BusTimetable";
 
-export type InfoTab = "syllabus" | "calculator" | "bus" | "rules" | "contacts" | "campus";
+export type InfoTab = "syllabus" | "calculator" | "bus" | "emergency" | "links" | "rules" | "campus";
 
 const campusHighlights = [
   { label: "📍 Campus Location", value: "Waknaghat, P.O. Dumehar, Kandaghat, Solan, H.P. (Pin: 173234)" },
@@ -21,50 +22,61 @@ const campusHighlights = [
 const TABS: Array<{ id: InfoTab; label: string; icon: string }> = [
   { id: "syllabus",   label: "Syllabus",     icon: "📚" },
   { id: "calculator", label: "GPA Calc",     icon: "📊" },
-  { id: "bus",        label: "Bus Timetable",icon: "🚌" },
+  { id: "bus",        label: "Bus Times",    icon: "🚌" },
+  { id: "emergency",  label: "Emergency",    icon: "🚨" },
+  { id: "links",      label: "Links",        icon: "🔗" },
   { id: "rules",      label: "Rules",        icon: "📜" },
-  { id: "contacts",   label: "Emergency",    icon: "📞" },
   { id: "campus",     label: "Guide",        icon: "🌲" },
 ];
 
 export default function CampusInfo({
   onOpenMap,
   onOpenReport,
+  defaultTab = "syllabus",
 }: {
   onOpenMap?: () => void;
   onOpenReport?: () => void;
+  defaultTab?: InfoTab;
 }) {
-  const [activeTab, setActiveTab] = useState<InfoTab>("syllabus");
+  const [activeTab, setActiveTab] = useState<InfoTab>(defaultTab);
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 p-2.5 sm:p-3 w-full max-w-full overflow-hidden min-w-0 space-y-3">
-      {/* ── Segmented Tab Selector (wrapping tile grid — nothing clipped at any width) ── */}
+      {/* ── Segmented Tab Selector (Clean 4-col mobile, 7-col desktop — nothing clipped) ── */}
       <div
-        className="grid grid-cols-3 gap-1 p-1 rounded-2xl bg-gray-100/80 dark:bg-gray-900/60 border border-gray-200/60 dark:border-gray-700/60 select-none"
+        className="grid grid-cols-4 sm:grid-cols-7 gap-1 p-1 rounded-2xl bg-gray-100/80 dark:bg-gray-900/60 border border-gray-200/60 dark:border-gray-700/60 select-none"
         role="tablist"
       >
-        {TABS.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            role="tab"
-            aria-selected={activeTab === tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`flex flex-col items-center justify-center gap-0.5 px-1 py-2 rounded-xl text-[11px] font-semibold leading-tight transition-all cursor-pointer active:scale-95 ${
-              activeTab === tab.id
-                ? "bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-sm"
-                : "text-gray-500 dark:text-gray-400 hover:bg-white/80 dark:hover:bg-gray-800 hover:text-gray-800 dark:hover:text-gray-200"
-            }`}
-          >
-            <span className="text-base" aria-hidden>
-              {tab.icon}
-            </span>
-            <span className="whitespace-nowrap">{tab.label}</span>
-          </button>
-        ))}
+        {TABS.map((tab) => {
+          const isActive = activeTab === tab.id;
+          const isEmergency = tab.id === "emergency";
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex flex-col items-center justify-center gap-0.5 px-1 py-1.5 rounded-xl text-[11px] font-semibold leading-tight transition-all cursor-pointer active:scale-95 ${
+                isActive
+                  ? isEmergency
+                    ? "bg-gradient-to-br from-rose-600 to-red-600 text-white shadow-sm ring-1 ring-rose-400/40"
+                    : "bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-sm"
+                  : isEmergency
+                  ? "text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 font-bold"
+                  : "text-gray-500 dark:text-gray-400 hover:bg-white/80 dark:hover:bg-gray-800 hover:text-gray-800 dark:hover:text-gray-200"
+              }`}
+            >
+              <span className="text-sm sm:text-base" aria-hidden>
+                {tab.icon}
+              </span>
+              <span className="whitespace-nowrap text-[10px] sm:text-[11px]">{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* ── 1. Accurate & Modern Syllabus Directory ── */}
+      {/* ── 1. Accurate 4-Year Syllabus Directory ── */}
       {activeTab === "syllabus" && (
         <SyllabusDirectory />
       )}
@@ -83,21 +95,28 @@ export default function CampusInfo({
         </div>
       )}
 
-      {/* ── 4. Rules & Regulations Tab ── */}
+      {/* ── 4. Dedicated 24x7 Emergency Helplines & Contacts Tab ── */}
+      {activeTab === "emergency" && (
+        <div className="min-w-0">
+          <EmergencyContacts />
+        </div>
+      )}
+
+      {/* ── 5. Dedicated Official Portals & University Links Tab ── */}
+      {activeTab === "links" && (
+        <div className="min-w-0">
+          <JuitWebsitesDirectory onOpenReport={onOpenReport} />
+        </div>
+      )}
+
+      {/* ── 6. Rules & Regulations Tab ── */}
       {activeTab === "rules" && (
         <div className="min-w-0">
           <RulesAndRegulations />
         </div>
       )}
 
-      {/* ── 5. Portals & Emergency Contacts Tab ── */}
-      {activeTab === "contacts" && (
-        <div className="min-w-0">
-          <JuitWebsitesDirectory onOpenReport={onOpenReport} />
-        </div>
-      )}
-
-      {/* ── 6. Campus & Nearby Guide Tab ── */}
+      {/* ── 7. Campus & Nearby Guide Tab ── */}
       {activeTab === "campus" && (
         <div className="space-y-3 min-w-0">
           {onOpenMap && (
