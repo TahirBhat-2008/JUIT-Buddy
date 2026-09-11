@@ -62,29 +62,42 @@ select {
   box-sizing: border-box;
 }
 
-/* Global media and input boundary containment */
-img, video, canvas, audio, iframe, embed, object {
-  max-width: 100%;
-  height: auto;
-}
+/* ───────────────────────────────────────────────────────────────────────────
+   Containment resets (MUST live in @layer base).
 
-pre {
-  max-width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
+   Tailwind v4 puts every utility inside `@layer utilities`. Any UNLAYERED css
+   rule beats layered utilities in the cascade regardless of specificity, so
+   these resets previously killed min-w-[74px], h-72 on iframes, etc. and
+   caused the overlapping tabs in the Campus panel. Wrapping them in @layer
+   base restores the correct order: base < components < utilities.
+   ─────────────────────────────────────────────────────────────────────────── */
+@layer base {
+  /* Global media and input boundary containment */
+  img, video, canvas, audio, iframe, embed, object {
+    max-width: 100%;
+    height: auto;
+  }
 
-input, textarea, select {
-  max-width: 100%;
-}
+  pre {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 
-/* Critical: stops flex/grid children from blowing out container width on mobile */
-:where(
-  .flex > *,
-  .grid > *,
-  [class*="flex-"] > *
-) {
-  min-width: 0;
+  input, textarea, select {
+    max-width: 100%;
+  }
+
+  /* Stops flex/grid children from blowing out container width on mobile.
+     Tailwind utilities like min-w-[74px] / min-w-fit intentionally override
+     this on specific elements. */
+  :where(
+    .flex > *,
+    .grid > *,
+    [class*="flex-"] > *
+  ) {
+    min-width: 0;
+  }
 }
 
 /* Smooth touch scrolling for horizontal carousels and strips */
