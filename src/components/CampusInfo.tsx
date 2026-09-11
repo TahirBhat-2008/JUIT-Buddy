@@ -42,7 +42,7 @@ export default function CampusInfo({
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 p-2.5 sm:p-3 w-full max-w-full overflow-hidden min-w-0 space-y-3">
-      {/* ── Segmented Tab Selector (Resilient 2-Row Flex Wrap — Zero Overlap on Any Screen) ── */}
+      {/* ── Segmented Tab Selector (content-sized chips: each pill is at least as wide as its label, rows wrap — zero overlap on any screen) ── */}
       <div
         className="flex flex-wrap gap-1.5 p-1.5 rounded-2xl bg-gray-100/90 dark:bg-gray-900/70 border border-gray-200/70 dark:border-gray-700/70 select-none"
         role="tablist"
@@ -57,7 +57,7 @@ export default function CampusInfo({
               role="tab"
               aria-selected={isActive}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 min-w-[74px] flex items-center justify-center gap-1 px-2.5 py-2 rounded-xl text-xs font-semibold leading-tight transition-all cursor-pointer active:scale-95 ${
+              className={`grow basis-auto flex items-center justify-center gap-1 px-2.5 py-2 rounded-xl text-xs font-semibold leading-tight transition-all cursor-pointer active:scale-95${
                 isActive
                   ? isEmergency
                     ? "bg-gradient-to-r from-rose-600 to-red-600 text-white shadow-sm ring-1 ring-rose-400/40"
