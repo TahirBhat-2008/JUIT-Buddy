@@ -129,7 +129,7 @@ export default function EmergencyContacts() {
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-2">
           {speedDialContacts.map((sd) => (
             <div
               key={sd.id}
@@ -244,7 +244,7 @@ export default function EmergencyContacts() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-1 gap-2.5">
             {filteredContacts.map((c) => (
               <div
                 key={c.id}

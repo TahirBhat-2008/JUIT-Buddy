@@ -42,9 +42,9 @@ export default function CampusInfo({
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 p-2.5 sm:p-3 w-full max-w-full overflow-hidden min-w-0 space-y-3">
-      {/* ── Segmented Tab Selector (Clean 4-col mobile, 7-col desktop — nothing clipped) ── */}
+      {/* ── Segmented Tab Selector (Resilient 2-Row Flex Wrap — Zero Overlap on Any Screen) ── */}
       <div
-        className="grid grid-cols-4 sm:grid-cols-7 gap-1 p-1 rounded-2xl bg-gray-100/80 dark:bg-gray-900/60 border border-gray-200/60 dark:border-gray-700/60 select-none"
+        className="flex flex-wrap gap-1.5 p-1.5 rounded-2xl bg-gray-100/90 dark:bg-gray-900/70 border border-gray-200/70 dark:border-gray-700/70 select-none"
         role="tablist"
       >
         {TABS.map((tab) => {
@@ -57,20 +57,20 @@ export default function CampusInfo({
               role="tab"
               aria-selected={isActive}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex flex-col items-center justify-center gap-0.5 px-1 py-1.5 rounded-xl text-[11px] font-semibold leading-tight transition-all cursor-pointer active:scale-95 ${
+              className={`flex-1 min-w-[74px] flex items-center justify-center gap-1 px-2.5 py-2 rounded-xl text-xs font-semibold leading-tight transition-all cursor-pointer active:scale-95 ${
                 isActive
                   ? isEmergency
-                    ? "bg-gradient-to-br from-rose-600 to-red-600 text-white shadow-sm ring-1 ring-rose-400/40"
-                    : "bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-sm"
+                    ? "bg-gradient-to-r from-rose-600 to-red-600 text-white shadow-sm ring-1 ring-rose-400/40"
+                    : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm"
                   : isEmergency
-                  ? "text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 font-bold"
-                  : "text-gray-500 dark:text-gray-400 hover:bg-white/80 dark:hover:bg-gray-800 hover:text-gray-800 dark:hover:text-gray-200"
+                  ? "bg-rose-50/90 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/50 border border-rose-200/80 dark:border-rose-800/80 font-bold"
+                  : "bg-white/80 dark:bg-gray-800/80 text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white border border-gray-200/60 dark:border-gray-700/60"
               }`}
             >
-              <span className="text-sm sm:text-base" aria-hidden>
+              <span className="text-sm flex-shrink-0" aria-hidden>
                 {tab.icon}
               </span>
-              <span className="whitespace-nowrap text-[10px] sm:text-[11px]">{tab.label}</span>
+              <span className="whitespace-nowrap">{tab.label}</span>
             </button>
           );
         })}

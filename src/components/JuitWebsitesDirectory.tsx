@@ -202,7 +202,7 @@ export default function JuitWebsitesDirectory({
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-1 gap-2.5">
             {filteredLinks.map((item) => (
               <div
                 key={item.id}
