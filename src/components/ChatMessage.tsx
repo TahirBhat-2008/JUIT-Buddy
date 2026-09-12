@@ -2,6 +2,8 @@
 
 import { memo, useState, useMemo } from "react";
 import { Message } from "@/lib/types";
+import katex from "katex";
+import "katex/dist/katex.min.css";
 
 interface ChatMessageProps {
   message: Message;
@@ -57,6 +59,144 @@ function CodeBlock({ code, language }: { code: string; language?: string }) {
       </pre>
     </div>
   );
+}
+
+// ── Math rendering (KaTeX) ──────────────────────────────────────────────
+// Matches $$display$$, $inline$, \[display\] and \(inline\) LaTeX delimiters.
+// Display math is extracted first since it can span multiple lines.
+const DISPLAY_MATH_REGEX = /\$\$([\s\S]+?)\$\$|\\\[([\s\S]+?)\\\]/;
+const INLINE_MATH_REGEX = /\$([^$\n]+?)\$|\\\(([^\n]+?)\\\)/;
+
+/** Fix common LLM LaTeX mistakes before handing TeX to KaTeX. */
+function normalizeTex(tex: string): string {
+  return tex
+    // Models sometimes emit doubled backslashes (\\mu instead of \\mu),
+    // which KaTeX renders as a red parse error. A legit LaTeX line-break "\\"
+    // is followed by a space/newline/], never a letter, so this is safe.
+    .replace(/\\\\([a-zA-Z])/g, "\\$1")
+    // "D'_n^2" is a KaTeX double-superscript error (the prime is already a
+    // superscript). Fold the prime into the exponent: D'_n^2 -> D_n^{\prime 2}.
+    // Bases may be plain letters (D) or brace-ended macros (\mathcal{D});
+    // also handles the D_n'^2 ordering.
+    .replace(/((?:\\[a-zA-Z]+\{[a-zA-Z]+\})|(?:\\?[a-zA-Z]+))'(_[^\s{}^]+)?\^([^\s{}]+)/g, "$1$2^{\\prime $3}")
+    .replace(/((?:\\[a-zA-Z]+\{[a-zA-Z]+\})|(?:\\?[a-zA-Z]+))(_[^\s{}^]+)?'\^([^\s{}]+)/g, "$1$2^{\\prime $3}")
+    // Stray trailing backslash from \\\(x\\) style delimiters
+    .replace(/\\+$/, "");
+}
+
+/** Render one TeX snippet to HTML; falls back to styled plain text on failure. */
+function KaTeX({ tex, display, errorFallback }: { tex: string; display: boolean; errorFallback?: string }) {
+  try {
+    const html = katex.renderToString(normalizeTex(tex), {
+      displayMode: display,
+      throwOnError: false, // bad input renders in red instead of crashing
+      strict: false,
+      output: "html",
+    });
+    return (
+      <span
+        className={display ? "block my-2 overflow-x-auto text-left" : "inline-block"}
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    );
+  } catch {
+    return <code className="bg-black/5 dark:bg-white/10 px-1.5 py-0.5 rounded text-xs font-mono">{errorFallback ?? tex}</code>;
+  }
+}
+
+/** Split text into plain / math segments and render math with KaTeX. */
+function renderMathSegments(text: string, keyPrefix: string): React.ReactNode[] {
+  const nodes: React.ReactNode[] = [];
+  let rest = text;
+  let blockIdx = 0;
+
+  // 1. Pull display math ($$...$$ / \[...\]) out first — it can span lines.
+  while (true) {
+    const m = rest.match(DISPLAY_MATH_REGEX);
+    if (!m || m.index === undefined) break;
+    if (m.index > 0) {
+      nodes.push(...renderInlineSegments(rest.slice(0, m.index), `${keyPrefix}-pre${blockIdx}`));
+    }
+    const tex = (m[1] ?? m[2] ?? "").trim();
+    nodes.push(<KaTeX key={`${keyPrefix}-disp-${blockIdx}`} tex={tex} display errorFallback={m[0]} />);
+    rest = rest.slice(m.index + m[0].length);
+    blockIdx++;
+  }
+  if (rest) nodes.push(...renderInlineSegments(rest, `${keyPrefix}-tail${blockIdx}`));
+  return nodes;
+}
+
+/** Inline math splitting only — used inside bold spans where `**` is already consumed. */
+function renderMathOnly(text: string, keyPrefix: string): React.ReactNode[] {
+  const nodes: React.ReactNode[] = [];
+  let rest = text;
+  let idx = 0;
+
+  while (true) {
+    const m = rest.match(INLINE_MATH_REGEX);
+    if (!m || m.index === undefined) break;
+    if (m.index > 0) {
+      nodes.push(<span key={`${keyPrefix}-t-${idx}`}>{formatInlineParts(rest.slice(0, m.index))}</span>);
+    }
+    nodes.push(<KaTeX key={`${keyPrefix}-m-${idx}`} tex={(m[1] ?? m[2] ?? "").trim()} display={false} errorFallback={m[0]} />);
+    rest = rest.slice(m.index + m[0].length);
+    idx++;
+  }
+  if (rest) nodes.push(<span key={`${keyPrefix}-e-${idx}`}>{formatInlineParts(rest)}</span>);
+  return nodes;
+}
+
+/**
+ * Inline-level tokenizer: bold spans (which may CONTAIN math), then bare math,
+ * then regular markdown passthrough. Bold must be checked alongside math —
+ * extracting math first used to split "**x ($a$) y**" into fragments so the
+ * bold markers never paired and rendered literally.
+ */
+function renderInlineSegments(text: string, keyPrefix: string): React.ReactNode[] {
+  const nodes: React.ReactNode[] = [];
+  let rest = text;
+  let idx = 0;
+
+  while (true) {
+    const mMath = rest.match(INLINE_MATH_REGEX);
+    const mBold = rest.match(/\*\*([^*\n]+)\*\*/);
+    const mathAt = mMath && mMath.index !== undefined ? mMath.index : Infinity;
+    const boldAt = mBold && mBold.index !== undefined ? mBold.index : Infinity;
+
+    if (!mMath && !mBold) break;
+
+    if (mBold && mBold.index !== undefined && (!mMath || boldAt < mathAt)) {
+      if (mBold.index > 0) {
+        nodes.push(...renderMathOnly(rest.slice(0, mBold.index), `${keyPrefix}-bp-${idx}`));
+      }
+      nodes.push(
+        <strong key={`${keyPrefix}-bold-${idx}`} className="font-semibold text-gray-900 dark:text-white">
+          {renderMathOnly(mBold[1], `${keyPrefix}-bin-${idx}`)}
+        </strong>
+      );
+      rest = rest.slice(mBold.index + mBold[0].length);
+    } else if (mMath && mMath.index !== undefined) {
+      if (mMath.index > 0) {
+        nodes.push(<span key={`${keyPrefix}-txt-${idx}`}>{formatInlineParts(rest.slice(0, mMath.index))}</span>);
+      }
+      nodes.push(<KaTeX key={`${keyPrefix}-inl-${idx}`} tex={(mMath[1] ?? mMath[2] ?? "").trim()} display={false} errorFallback={mMath[0]} />);
+      rest = rest.slice(mMath.index + mMath[0].length);
+    } else {
+      break;
+    }
+    idx++;
+  }
+  if (rest) nodes.push(<span key={`${keyPrefix}-end-${idx}`}>{formatInlineParts(rest)}</span>);
+  return nodes;
+}
+
+/** Render a text line that may contain math + inline markdown. */
+function renderLineWithMath(line: string, keyPrefix: string): React.ReactNode {
+  if (!line.includes("$") && !line.includes("\\(")) {
+    // Fast path: no math delimiters at all
+    return formatInlineParts(line);
+  }
+  return <>{renderMathSegments(line, keyPrefix)}</>;
 }
 
 function formatInlineParts(text: string): React.ReactNode {
@@ -125,7 +265,7 @@ function TableBlock({ headers, rows }: { headers: string[]; rows: string[][] }) 
           <tr>
             {headers.map((h, i) => (
               <th key={i} className="px-3 py-2 text-left font-bold tracking-wide">
-                {formatInlineParts(h)}
+                {renderLineWithMath(h, `th-${i}`)}
               </th>
             ))}
           </tr>
@@ -138,7 +278,7 @@ function TableBlock({ headers, rows }: { headers: string[]; rows: string[][] }) 
             >
               {row.map((cell, cIdx) => (
                 <td key={cIdx} className="px-3 py-2 whitespace-normal break-words">
-                  {formatInlineParts(cell)}
+                  {renderLineWithMath(cell, `td-${rIdx}-${cIdx}`)}
                 </td>
               ))}
             </tr>
@@ -181,7 +321,7 @@ function formatTextBlock(text: string): React.ReactNode {
         tableAccumulator.forEach((tLine, tIdx) => {
           elements.push(
             <div key={`${keyPrefix}-raw-${tIdx}`} className="leading-relaxed">
-              {formatInlineParts(tLine)}
+              {renderLineWithMath(tLine, `${keyPrefix}-raw-${tIdx}`)}
             </div>
           );
         });
@@ -235,7 +375,7 @@ function formatTextBlock(text: string): React.ReactNode {
           key={`quote-${lineIdx}`}
           className="border-l-3 border-blue-500 dark:border-blue-400 pl-3 my-2 text-xs sm:text-sm italic text-gray-600 dark:text-gray-400 bg-blue-50/30 dark:bg-blue-950/20 py-1 rounded-r-lg"
         >
-          {formatInlineParts(line.replace(/^>\s*/, ""))}
+          {renderLineWithMath(line.replace(/^>\s*/, ""), `quote-${lineIdx}`)}
         </blockquote>
       );
       return;
@@ -247,7 +387,7 @@ function formatTextBlock(text: string): React.ReactNode {
         <div key={`ul-${lineIdx}`} className="flex items-start gap-2 my-1 pl-1">
           <span className="w-1.5 h-1.5 rounded-full bg-blue-500 dark:bg-blue-400 mt-2 flex-shrink-0" />
           <div className="flex-1 min-w-0 leading-relaxed text-sm">
-            {formatInlineParts(trimmed.replace(/^[-*]\s+/, ""))}
+            {renderLineWithMath(trimmed.replace(/^[-*]\s+/, ""), `ul-${lineIdx}`)}
           </div>
         </div>
       );
@@ -263,7 +403,7 @@ function formatTextBlock(text: string): React.ReactNode {
             {olMatch[1]}.
           </span>
           <div className="flex-1 min-w-0 leading-relaxed text-sm">
-            {formatInlineParts(olMatch[2])}
+            {renderLineWithMath(olMatch[2], `ol-${lineIdx}`)}
           </div>
         </div>
       );
@@ -279,7 +419,7 @@ function formatTextBlock(text: string): React.ReactNode {
     // Normal line
     elements.push(
       <div key={`norm-${lineIdx}`} className="leading-relaxed text-sm">
-        {formatInlineParts(line)}
+        {renderLineWithMath(line, `norm-${lineIdx}`)}
       </div>
     );
   });
