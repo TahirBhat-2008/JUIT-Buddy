@@ -1,4 +1,5 @@
-export interface MessageImage {
+/** Inline file attached to a message and sent to Gemini (image or PDF) */
+export interface MessageAttachment {
   mimeType: string;
   /** base64 payload WITHOUT the data: URL prefix */
   data: string;
@@ -9,8 +10,8 @@ export interface Message {
   role: "user" | "assistant";
   content: string;
   timestamp: Date;
-  /** Optional inline images attached to the message (Gemini vision) */
-  images?: MessageImage[];
+  /** Optional inline attachments (images / PDFs) sent to Gemini */
+  attachments?: MessageAttachment[];
 }
 
 export interface ChatRequest {

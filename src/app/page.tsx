@@ -20,7 +20,7 @@ import ClubsDirectory from "@/components/ClubsDirectory";
 import QuickNavDock from "@/components/QuickNavDock";
 import MobileTabBar from "@/components/MobileTabBar";
 import ReportModal from "@/components/ReportModal";
-import { Message, MessageImage } from "@/lib/types";
+import { Message, MessageAttachment } from "@/lib/types";
 
 function generateId() {
   return Math.random().toString(36).substring(2) + Date.now().toString(36);
@@ -210,9 +210,9 @@ export default function Home() {
       // Bug fix: large histories (e.g. pasted/base64 content from NotesUpload) can
       // exceed the ~5MB localStorage quota; an unguarded setItem threw
       // QuotaExceededError inside this effect and crashed the whole app.
-      // Images are stripped before persisting — they only matter for the
-      // immediate request and would otherwise blow the quota instantly.
-      const persistable = messages.map(({ images: _images, ...rest }) => rest);
+      // Attachments (image/PDF base64) are stripped before persisting — they only
+      // matter for the immediate request and would otherwise blow the quota.
+      const persistable = messages.map(({ attachments: _attachments, ...rest }) => rest);
       try {
         localStorage.setItem("juit-buddy-chat", JSON.stringify(persistable));
       } catch {
@@ -284,7 +284,7 @@ export default function Home() {
     localStorage.removeItem("juit-buddy-batch");
   };
 
-  const sendMessage = async (content: string, images?: MessageImage[]) => {
+  const sendMessage = async (content: string, attachments?: MessageAttachment[]) => {
     // Bug fix: QuickActions, NotesUpload and ProblemSolver all funnel into this
     // function WITHOUT the isLoading guard ChatInput has. Without this check,
     // a mid-stream click fired a second concurrent Gemini request, interleaving
@@ -301,7 +301,7 @@ export default function Home() {
       id: generateId(),
       role: "user",
       content,
-      images,
+      attachments,
       timestamp: new Date(),
     };
 
@@ -319,13 +319,13 @@ export default function Home() {
             typeof m.content === "string" &&
             !m.content.startsWith("Sorry, I ran into an issue")
         )
-        .map((m): { role: string; content: string; images?: MessageImage[] } => ({
+        .map((m): { role: string; content: string; attachments?: MessageAttachment[] } => ({
           role: m.role,
           content: m.content,
-          ...(m.images ? { images: m.images } : {}),
+          ...(m.attachments ? { attachments: m.attachments } : {}),
         }));
 
-      apiMessages.push({ role: "user", content, images });
+      apiMessages.push({ role: "user", content, attachments });
 
       const response = await fetch("/api/chat", {
         method: "POST",
@@ -717,8 +717,8 @@ export default function Home() {
                 {renderedPanel === "map" && <CampusMap />}
                 {renderedPanel === "notes" && (
                   <NotesUpload
-                    onUpload={(content, _fileName, images) => {
-                      sendMessage(content, images);
+                    onUpload={(content, _fileName, attachments) => {
+                      sendMessage(content, attachments);
                       setActivePanel("none");
                     }}
                   />

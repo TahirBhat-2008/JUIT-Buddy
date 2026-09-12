@@ -248,7 +248,7 @@ export async function streamChatWithGemini(
   messages: {
     role: string;
     content: string;
-    images?: { mimeType: string; data: string }[];
+    attachments?: { mimeType: string; data: string }[];
   }[],
   mode: AIMode = "study",
   studentBatch?: string,
@@ -275,18 +275,19 @@ export async function streamChatWithGemini(
 
   const { history, lastMessageText } = sanitizeHistoryAndLastMessage(messages);
 
-  // Bug fix: attach any inline images from the latest user message so vision
-  // requests actually reach the model (they were previously dropped here).
+  // Attach any inline files (images / PDFs) from the latest user message so
+  // vision & document questions actually reach the model.
   const latestUser = [...messages].reverse().find((m) => m.role === "user");
-  const imageParts = (latestUser?.images || [])
-    .filter((img) => img && typeof img.data === "string" && typeof img.mimeType === "string" && img.mimeType.startsWith("image/"))
+  const fileParts = (latestUser?.attachments || [])
+    .filter((f) => f && typeof f.data === "string" && typeof f.mimeType === "string")
+    .filter((f) => f.mimeType.startsWith("image/") || f.mimeType === "application/pdf")
     .slice(0, 4)
-    .map((img) => ({ inlineData: { mimeType: img.mimeType, data: img.data } }));
+    .map((f) => ({ inlineData: { mimeType: f.mimeType, data: f.data } }));
 
   const chat = model.startChat({ history });
   const result = await chat.sendMessageStream([
     { text: lastMessageText },
-    ...imageParts,
+    ...fileParts,
   ]);
   const encoder = new TextEncoder();
 

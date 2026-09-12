@@ -2,14 +2,15 @@
 
 import { useState, useRef } from "react";
 
-import { MessageImage } from "@/lib/types";
+import { MessageAttachment } from "@/lib/types";
 
 interface NotesUploadProps {
-  onUpload: (content: string, fileName: string, images?: MessageImage[]) => void;
+  onUpload: (content: string, fileName: string, attachments?: MessageAttachment[]) => void;
 }
 
-/** Max inline image size sent to the vision model (base64 inflates ~33%) */
-const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
+/** Max inline attachment size. base64 inflates ~4/3 and deployment platforms
+ * (e.g. Vercel) cap the request body at ~4.5MB — so 3MB raw is the safe ceiling. */
+const MAX_FILE_BYTES = 3 * 1024 * 1024;
 
 export default function NotesUpload({ onUpload }: NotesUploadProps) {
   const [isDragging, setIsDragging] = useState(false);
@@ -29,15 +30,13 @@ export default function NotesUpload({ onUpload }: NotesUploadProps) {
 
     try {
       let content = "";
-      let imagePayload: MessageImage | undefined = undefined;
+      let attachment: MessageAttachment | undefined = undefined;
 
       if (file.type === "text/plain") {
         content = await file.text();
       } else if (file.type.startsWith("image/")) {
-        // Bug fix: previously the base64 was computed and then THROWN AWAY —
-        // only a placeholder string was sent, so "vision" silently did nothing.
-        if (file.size > MAX_IMAGE_BYTES) {
-          alert(`Image is too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Please upload an image under 4 MB.`);
+        if (file.size > MAX_FILE_BYTES) {
+          alert(`Image is too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Please upload an image under 3 MB.`);
           return;
         }
         const base64 = await new Promise<string>((resolve, reject) => {
@@ -47,13 +46,27 @@ export default function NotesUpload({ onUpload }: NotesUploadProps) {
           reader.onerror = () => reject(new Error("Could not read the image file"));
           reader.readAsDataURL(file);
         });
-        imagePayload = { mimeType: file.type, data: base64 };
+        attachment = { mimeType: file.type, data: base64 };
         content = `[Image uploaded: ${file.name}]\n\nPlease analyze this image and explain what you see. If it contains academic content, summarize it and explain the key concepts.`;
       } else if (file.type === "application/pdf") {
-        content = `[PDF uploaded: ${file.name}]\n\nI've uploaded a PDF document. Please help me understand this document by:\n1. Summarizing the main topics\n2. Explaining key concepts\n3. Creating practice questions based on the content\n\nNote: For best results with PDFs, try copying and pasting the text content directly.`;
+        // Bug fix: PDFs previously sent only a placeholder asking the student to
+        // paste text — the actual PDF was never analyzed. Gemini accepts PDFs
+        // natively as inline data, so now we attach the real document.
+        if (file.size > MAX_FILE_BYTES) {
+          alert(`PDF is too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Please upload a PDF under 3 MB — tip: compress it or upload a single chapter at a time.`);
+          return;
+        }
+        const base64 = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve((reader.result as string).split(",")[1]);
+          reader.onerror = () => reject(new Error("Could not read the PDF file"));
+          reader.readAsDataURL(file);
+        });
+        attachment = { mimeType: "application/pdf", data: base64 };
+        content = `[PDF uploaded: ${file.name}]\n\nI've attached a PDF document (${file.name}). Please:\n1. Summarize the main topics\n2. Explain the key concepts it covers\n3. Create practice questions based on its content`;
       }
 
-      onUpload(content, file.name, imagePayload ? [imagePayload] : undefined);
+      onUpload(content, file.name, attachment ? [attachment] : undefined);
     } catch {
       alert("Error processing file. Please try again.");
     } finally {
