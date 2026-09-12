@@ -47,7 +47,7 @@ export default function NotesUpload({ onUpload }: NotesUploadProps) {
           reader.readAsDataURL(file);
         });
         attachment = { mimeType: file.type, data: base64 };
-        content = `[Image uploaded: ${file.name}]\n\nPlease analyze this image and explain what you see. If it contains academic content, summarize it and explain the key concepts.`;
+        content = `[Document attached: ${file.name} — an image]\n\nAnalyze the attached image document and answer with:\n1. **What this document is** (one line)\n2. **Key concepts** — each as a bolded heading, explained in simple words a first-year student understands\n3. **Important formulas/data** — write every formula in LaTeX between $...$ so it renders properly\n4. **3 practice questions** based on it\n\nFormatting rules: use short paragraphs, bullet points, bold headings, and LaTeX for ALL math. Never dump raw LaTeX without delimiters.`;
       } else if (file.type === "application/pdf") {
         // Bug fix: PDFs previously sent only a placeholder asking the student to
         // paste text — the actual PDF was never analyzed. Gemini accepts PDFs
@@ -63,7 +63,7 @@ export default function NotesUpload({ onUpload }: NotesUploadProps) {
           reader.readAsDataURL(file);
         });
         attachment = { mimeType: "application/pdf", data: base64 };
-        content = `[PDF uploaded: ${file.name}]\n\nI've attached a PDF document (${file.name}). Please:\n1. Summarize the main topics\n2. Explain the key concepts it covers\n3. Create practice questions based on its content`;
+        content = `[Document attached: ${file.name} — a PDF]\n\nRead the attached PDF carefully and structure your answer exactly like this:\n\n## 📄 What this document is\nOne or two sentences — what it covers and who it's for.\n\n## 🎯 Key Concepts (in simple words)\nOne bolded heading per concept, then a 2-4 line plain-language explanation a first-year student can follow. Use an analogy where helpful.\n\n## 🧮 Important Formulas & Data\nList every formula from the document. Write ALL math in LaTeX between $...$ (inline) or $$...$$ (standalone) so it renders cleanly, with a one-line "what it means" note under each.\n\n## ❓ Practice Questions\n3 exam-style questions of increasing difficulty, mixing theory and numericals.\n\n## 🧠 Quick Revision Cheat Sheet\n5-7 one-line bullet points covering the absolute essentials.\n\nFormatting rules: short paragraphs, bullet points, bold headings, simple language. ALL math in LaTeX with proper $ delimiters — never dump raw LaTeX or plain-text formulas.`;
       }
 
       onUpload(content, file.name, attachment ? [attachment] : undefined);
