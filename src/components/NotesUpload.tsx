@@ -2,9 +2,14 @@
 
 import { useState, useRef } from "react";
 
+import { MessageImage } from "@/lib/types";
+
 interface NotesUploadProps {
-  onUpload: (content: string, fileName: string) => void;
+  onUpload: (content: string, fileName: string, images?: MessageImage[]) => void;
 }
+
+/** Max inline image size sent to the vision model (base64 inflates ~33%) */
+const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
 
 export default function NotesUpload({ onUpload }: NotesUploadProps) {
   const [isDragging, setIsDragging] = useState(false);
@@ -24,24 +29,31 @@ export default function NotesUpload({ onUpload }: NotesUploadProps) {
 
     try {
       let content = "";
+      let imagePayload: MessageImage | undefined = undefined;
 
       if (file.type === "text/plain") {
         content = await file.text();
       } else if (file.type.startsWith("image/")) {
-        // Convert image to base64 for Gemini vision
-        const reader = new FileReader();
-        content = await new Promise<string>((resolve) => {
-          reader.onload = () => {
-            const base64 = (reader.result as string).split(",")[1];
-            resolve(`[Image uploaded: ${file.name}]\n\nPlease analyze this image and explain what you see. If it contains academic content, summarize it and explain the key concepts.`);
-          };
+        // Bug fix: previously the base64 was computed and then THROWN AWAY —
+        // only a placeholder string was sent, so "vision" silently did nothing.
+        if (file.size > MAX_IMAGE_BYTES) {
+          alert(`Image is too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Please upload an image under 4 MB.`);
+          return;
+        }
+        const base64 = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve((reader.result as string).split(",")[1]);
+          // Bug fix: a failed read previously left the spinner stuck forever
+          reader.onerror = () => reject(new Error("Could not read the image file"));
           reader.readAsDataURL(file);
         });
+        imagePayload = { mimeType: file.type, data: base64 };
+        content = `[Image uploaded: ${file.name}]\n\nPlease analyze this image and explain what you see. If it contains academic content, summarize it and explain the key concepts.`;
       } else if (file.type === "application/pdf") {
         content = `[PDF uploaded: ${file.name}]\n\nI've uploaded a PDF document. Please help me understand this document by:\n1. Summarizing the main topics\n2. Explaining key concepts\n3. Creating practice questions based on the content\n\nNote: For best results with PDFs, try copying and pasting the text content directly.`;
       }
 
-      onUpload(content, file.name);
+      onUpload(content, file.name, imagePayload ? [imagePayload] : undefined);
     } catch {
       alert("Error processing file. Please try again.");
     } finally {

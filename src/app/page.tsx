@@ -20,7 +20,7 @@ import ClubsDirectory from "@/components/ClubsDirectory";
 import QuickNavDock from "@/components/QuickNavDock";
 import MobileTabBar from "@/components/MobileTabBar";
 import ReportModal from "@/components/ReportModal";
-import { Message } from "@/lib/types";
+import { Message, MessageImage } from "@/lib/types";
 
 function generateId() {
   return Math.random().toString(36).substring(2) + Date.now().toString(36);
@@ -154,6 +154,8 @@ export default function Home() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatScrollRef = useRef<HTMLDivElement>(null);
   const isStreamingRef = useRef(false);
+  const chatAbortRef = useRef<AbortController | null>(null);
+  const [isBusy, setIsBusy] = useState(false);
 
   // Load chat history from localStorage
   useEffect(() => {
@@ -205,7 +207,22 @@ export default function Home() {
   // Save chat history to localStorage
   useEffect(() => {
     if (messages.length > 0) {
-      localStorage.setItem("juit-buddy-chat", JSON.stringify(messages));
+      // Bug fix: large histories (e.g. pasted/base64 content from NotesUpload) can
+      // exceed the ~5MB localStorage quota; an unguarded setItem threw
+      // QuotaExceededError inside this effect and crashed the whole app.
+      // Images are stripped before persisting — they only matter for the
+      // immediate request and would otherwise blow the quota instantly.
+      const persistable = messages.map(({ images: _images, ...rest }) => rest);
+      try {
+        localStorage.setItem("juit-buddy-chat", JSON.stringify(persistable));
+      } catch {
+        // Quota exceeded: drop the oldest messages and retry once
+        try {
+          localStorage.setItem("juit-buddy-chat", JSON.stringify(persistable.slice(-30)));
+        } catch {
+          // Still too big — skip persisting this round; in-memory chat keeps working
+        }
+      }
     }
   }, [messages]);
 
@@ -245,9 +262,15 @@ export default function Home() {
     setStudentEmail(loginEmail);
     setStudentBatch(cleanBatch);
     localStorage.setItem("juit-buddy-logged-in", "true");
-    localStorage.setItem("juit-buddy-name", cleanName);
-    localStorage.setItem("juit-buddy-email", loginEmail);
-    localStorage.setItem("juit-buddy-batch", cleanBatch);
+    // Bug fix: guard all login writes against localStorage quota/privacy-mode failures
+    // (Safari private mode historically throws on any setItem).
+    try {
+      localStorage.setItem("juit-buddy-name", cleanName);
+      localStorage.setItem("juit-buddy-email", loginEmail);
+      localStorage.setItem("juit-buddy-batch", cleanBatch);
+    } catch {
+      // Non-fatal: session still works, it just won't persist across reloads
+    }
   };
 
   const handleLogout = () => {
@@ -261,11 +284,24 @@ export default function Home() {
     localStorage.removeItem("juit-buddy-batch");
   };
 
-  const sendMessage = async (content: string) => {
+  const sendMessage = async (content: string, images?: MessageImage[]) => {
+    // Bug fix: QuickActions, NotesUpload and ProblemSolver all funnel into this
+    // function WITHOUT the isLoading guard ChatInput has. Without this check,
+    // a mid-stream click fired a second concurrent Gemini request, interleaving
+    // two responses into the chat and corrupting the saved history.
+    if (isStreamingRef.current) return;
+    isStreamingRef.current = true;
+    setIsBusy(true);
+
+    // AbortController: lets clearChat / mode-switch cancel an in-flight stream
+    const controller = new AbortController();
+    chatAbortRef.current = controller;
+
     const userMessage: Message = {
       id: generateId(),
       role: "user",
       content,
+      images,
       timestamp: new Date(),
     };
 
@@ -283,12 +319,17 @@ export default function Home() {
             typeof m.content === "string" &&
             !m.content.startsWith("Sorry, I ran into an issue")
         )
-        .map((m) => ({ role: m.role, content: m.content }));
+        .map((m): { role: string; content: string; images?: MessageImage[] } => ({
+          role: m.role,
+          content: m.content,
+          ...(m.images ? { images: m.images } : {}),
+        }));
 
-      apiMessages.push({ role: "user", content });
+      apiMessages.push({ role: "user", content, images });
 
       const response = await fetch("/api/chat", {
         method: "POST",
+        signal: controller.signal,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: apiMessages,
@@ -315,7 +356,7 @@ export default function Home() {
         throw new Error("No response body received");
       }
 
-      isStreamingRef.current = true;
+      // isStreamingRef was already armed at send start (guards concurrent sends)
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let accumulatedText = "";
@@ -362,6 +403,8 @@ export default function Home() {
         )
       );
     } catch (error) {
+      // Aborted on purpose (clear chat / mode switch): stay silent, no error bubble
+      if (controller.signal.aborted) return;
       const errorMessage: Message = {
         id: generateId(),
         role: "assistant",
@@ -373,17 +416,23 @@ export default function Home() {
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       isStreamingRef.current = false;
+      setIsBusy(false);
+      chatAbortRef.current = null;
       setIsLoading(false);
     }
   };
 
 
   const clearChat = () => {
+    // Bug fix: abort any in-flight stream so it can't append into the fresh chat
+    chatAbortRef.current?.abort();
     setMessages([getWelcomeMessage(currentMode)]);
     localStorage.removeItem("juit-buddy-chat");
   };
 
   const handleModeChange = (mode: AIMode) => {
+    // Bug fix: abort any in-flight stream so old-mode chunks can't bleed into the new mode's chat
+    chatAbortRef.current?.abort();
     setCurrentMode(mode);
     setMessages([getWelcomeMessage(mode)]);
     localStorage.setItem("juit-buddy-mode", mode);
@@ -525,7 +574,7 @@ export default function Home() {
             </div>
           </div>
 
-          <ChatInput onSend={sendMessage} isLoading={isLoading} />
+          <ChatInput onSend={sendMessage} isLoading={isLoading || isBusy} />
 
           {/* Jump-to-latest floating pill */}
           <button
@@ -668,8 +717,8 @@ export default function Home() {
                 {renderedPanel === "map" && <CampusMap />}
                 {renderedPanel === "notes" && (
                   <NotesUpload
-                    onUpload={(content) => {
-                      sendMessage(content);
+                    onUpload={(content, _fileName, images) => {
+                      sendMessage(content, images);
                       setActivePanel("none");
                     }}
                   />

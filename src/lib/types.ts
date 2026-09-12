@@ -1,8 +1,16 @@
+export interface MessageImage {
+  mimeType: string;
+  /** base64 payload WITHOUT the data: URL prefix */
+  data: string;
+}
+
 export interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
   timestamp: Date;
+  /** Optional inline images attached to the message (Gemini vision) */
+  images?: MessageImage[];
 }
 
 export interface ChatRequest {

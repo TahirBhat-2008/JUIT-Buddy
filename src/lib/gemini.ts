@@ -245,7 +245,11 @@ export async function chatWithGemini(
 }
 
 export async function streamChatWithGemini(
-  messages: { role: string; content: string }[],
+  messages: {
+    role: string;
+    content: string;
+    images?: { mimeType: string; data: string }[];
+  }[],
   mode: AIMode = "study",
   studentBatch?: string,
   referenceDate?: Date
@@ -271,8 +275,19 @@ export async function streamChatWithGemini(
 
   const { history, lastMessageText } = sanitizeHistoryAndLastMessage(messages);
 
+  // Bug fix: attach any inline images from the latest user message so vision
+  // requests actually reach the model (they were previously dropped here).
+  const latestUser = [...messages].reverse().find((m) => m.role === "user");
+  const imageParts = (latestUser?.images || [])
+    .filter((img) => img && typeof img.data === "string" && typeof img.mimeType === "string" && img.mimeType.startsWith("image/"))
+    .slice(0, 4)
+    .map((img) => ({ inlineData: { mimeType: img.mimeType, data: img.data } }));
+
   const chat = model.startChat({ history });
-  const result = await chat.sendMessageStream(lastMessageText);
+  const result = await chat.sendMessageStream([
+    { text: lastMessageText },
+    ...imageParts,
+  ]);
   const encoder = new TextEncoder();
 
   return new ReadableStream<Uint8Array>({
