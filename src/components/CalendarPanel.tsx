@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type EventType = "holiday" | "exam" | "academic" | "event" | "vacation";
 
@@ -200,6 +200,182 @@ const DAY_HEADERS = [
   { label: "Sa", isSunday: false },
 ];
 
+// ── Live Weather (Open-Meteo, free & keyless) for JUIT Waknaghat campus ────
+type WeatherData = {
+  temp: number;
+  feelsLike: number;
+  humidity: number;
+  wind: number;
+  code: number;
+  isDay: boolean;
+  max: number;
+  min: number;
+  rainChance: number;
+  tomorrow: { code: number; max: number; min: number; rainChance: number };
+  dayAfter: { code: number; max: number; min: number; rainChance: number };
+};
+
+const JUIT_COORDS = { lat: 30.8614, lon: 77.1166 }; // JUIT Waknaghat, Solan, HP
+const WEATHER_CACHE_KEY = "juit-buddy-weather";
+const WEATHER_CACHE_MS = 30 * 60 * 1000; // 30 minutes
+
+// WMO weather interpretation codes → icon + label
+function wmoInfo(code: number, isDay: boolean): { icon: string; label: string } {
+  if (code === 0) return isDay ? { icon: "☀️", label: "Clear sky" } : { icon: "🌙", label: "Clear night" };
+  if (code === 1) return isDay ? { icon: "🌤️", label: "Mostly clear" } : { icon: "🌙", label: "Mostly clear" };
+  if (code === 2) return { icon: "⛅", label: "Partly cloudy" };
+  if (code === 3) return { icon: "☁️", label: "Overcast" };
+  if (code === 45 || code === 48) return { icon: "🌫️", label: "Foggy hills" };
+  if (code >= 51 && code <= 57) return { icon: "🌦️", label: "Drizzle" };
+  if (code >= 61 && code <= 67) return { icon: "🌧️", label: "Rain" };
+  if (code >= 71 && code <= 77) return { icon: "🌨️", label: "Snow" };
+  if (code >= 80 && code <= 82) return { icon: "🌦️", label: "Rain showers" };
+  if (code === 85 || code === 86) return { icon: "🌨️", label: "Snow showers" };
+  if (code >= 95) return { icon: "⛈️", label: "Thunderstorm" };
+  return { icon: "🌡️", label: "—" };
+}
+
+// Campus-relevant tip derived from the weather
+function weatherTip(w: WeatherData): string {
+  if (w.code >= 95) return "Thunderstorm alert — avoid open areas & plan indoor study 🌩️";
+  if (w.rainChance >= 60 || w.code >= 61) return "Carry an umbrella — the Waknaghat road gets slippery 🌂";
+  if (w.code === 45 || w.code === 48) return "Dense fog on the hills — morning buses may run late 🌫️";
+  if (w.code >= 71) return "Snow expected — dress in layers, roads may be icy 🧥";
+  if (w.temp <= 8) return "Feels freezing on the terraces — wear a warm jacket 🧣";
+  if (w.temp >= 34) return "Hot & sunny — hydrate often between classes 💧";
+  if (w.rainChance >= 35) return `Might drizzle later (${w.rainChance}% chance) — an umbrella wouldn't hurt ☂️`;
+  if (w.wind >= 30) return "Windy on the open terraces — hold on to your notes 💨";
+  return "Pleasant campus weather — perfect for the OAT or sports ground ☺️";
+}
+
+function WeatherCard() {
+  const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    // Serve from localStorage cache if fresh (< 30 min) — panel remounts on
+    // every drawer open, so this avoids spamming the API on each open.
+    try {
+      const cached = JSON.parse(localStorage.getItem(WEATHER_CACHE_KEY) || "null");
+      if (cached && cached.ts && cached.data && Date.now() - cached.ts < WEATHER_CACHE_MS) {
+        setWeather(cached.data);
+        return () => { cancelled = true; };
+      }
+    } catch {
+      // corrupted cache — fall through to a fresh fetch
+    }
+
+    const url =
+      `https://api.open-meteo.com/v1/forecast?latitude=${JUIT_COORDS.lat}&longitude=${JUIT_COORDS.lon}` +
+      "&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,wind_speed_10m" +
+      "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max" +
+      "&timezone=Asia%2FKolkata&forecast_days=3";
+
+    fetch(url)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+      .then((j) => {
+        if (cancelled) return;
+        const w: WeatherData = {
+          temp: Math.round(j.current.temperature_2m),
+          feelsLike: Math.round(j.current.apparent_temperature),
+          humidity: Math.round(j.current.relative_humidity_2m),
+          wind: Math.round(j.current.wind_speed_10m),
+          code: j.current.weather_code,
+          isDay: j.current.is_day === 1,
+          max: Math.round(j.daily.temperature_2m_max[0]),
+          min: Math.round(j.daily.temperature_2m_min[0]),
+          rainChance: j.daily.precipitation_probability_max?.[0] ?? 0,
+          tomorrow: {
+            code: j.daily.weather_code[1],
+            max: Math.round(j.daily.temperature_2m_max[1]),
+            min: Math.round(j.daily.temperature_2m_min[1]),
+            rainChance: j.daily.precipitation_probability_max?.[1] ?? 0,
+          },
+          dayAfter: {
+            code: j.daily.weather_code[2],
+            max: Math.round(j.daily.temperature_2m_max[2]),
+            min: Math.round(j.daily.temperature_2m_min[2]),
+            rainChance: j.daily.precipitation_probability_max?.[2] ?? 0,
+          },
+        };
+        setWeather(w);
+        try {
+          localStorage.setItem(WEATHER_CACHE_KEY, JSON.stringify({ ts: Date.now(), data: w }));
+        } catch {
+          // quota full — weather is non-essential, skip caching
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setFailed(true);
+      });
+
+    return () => { cancelled = true; };
+  }, []);
+
+  if (failed) return null; // weather is a bonus — fail silently
+  if (!weather) {
+    return (
+      <div className="rounded-xl border border-sky-200/70 dark:border-sky-800/60 bg-gradient-to-r from-sky-50 to-blue-50 dark:from-sky-950/30 dark:to-blue-950/30 p-3 flex items-center gap-3 animate-pulse">
+        <span className="text-2xl">⛅</span>
+        <div className="flex-1">
+          <p className="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wide">Waknaghat Weather</p>
+          <p className="text-xs text-sky-500/80 dark:text-sky-500/70">Fetching live campus weather…</p>
+        </div>
+      </div>
+    );
+  }
+
+  const info = wmoInfo(weather.code, weather.isDay);
+  const day = (d: WeatherData["tomorrow"], label: string) => {
+    const di = wmoInfo(d.code, true);
+    return (
+      <div className="flex-1 min-w-0 text-center rounded-lg bg-white/60 dark:bg-gray-900/40 py-1.5 px-1">
+        <p className="text-[9px] font-bold text-sky-600/80 dark:text-sky-400/80 uppercase tracking-wider">{label}</p>
+        <p className="text-base leading-tight" aria-hidden>{di.icon}</p>
+        <p className="text-[10px] font-bold text-gray-700 dark:text-gray-200">{d.max}° <span className="text-gray-400 dark:text-gray-500 font-medium">/ {d.min}°</span></p>
+        <p className="text-[9px] text-blue-500 dark:text-blue-400 font-semibold">💧 {d.rainChance}%</p>
+      </div>
+    );
+  };
+
+  return (
+    <div className="rounded-xl border border-sky-200/70 dark:border-sky-800/60 bg-gradient-to-r from-sky-50 via-blue-50 to-indigo-50 dark:from-sky-950/30 dark:via-blue-950/30 dark:to-indigo-950/30 p-3 space-y-2">
+      {/* Current conditions */}
+      <div className="flex items-center gap-3">
+        <span className="text-3xl leading-none" aria-hidden>{info.icon}</span>
+        <div className="flex-1 min-w-0">
+          <p className="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wide">
+            Waknaghat Campus Weather
+          </p>
+          <p className="text-lg font-extrabold text-gray-900 dark:text-white leading-tight">
+            {weather.temp}°C
+            <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 ml-1.5">{info.label}</span>
+          </p>
+        </div>
+        <div className="text-right flex-shrink-0 text-[10px] font-semibold text-gray-500 dark:text-gray-400 space-y-0.5">
+          <p>↑ {weather.max}° ↓ {weather.min}°</p>
+          <p>💧 {weather.rainChance}% · 💨 {weather.wind} km/h</p>
+          <p>Feels {weather.feelsLike}°C</p>
+        </div>
+      </div>
+
+      {/* Campus tip */}
+      <p className="text-[11px] font-medium text-sky-800/90 dark:text-sky-200/90 leading-snug">
+        {weatherTip(weather)}
+      </p>
+
+      {/* 3-day outlook */}
+      <div className="flex gap-1.5">
+        {day({ code: weather.code, max: weather.max, min: weather.min, rainChance: weather.rainChance }, "Today")}
+        {day(weather.tomorrow, "Tomorrow")}
+        {day(weather.dayAfter, wmoInfo(weather.dayAfter.code, true).label === "—" ? "Day+2" : "Day+2")}
+      </div>
+    </div>
+  );
+}
+
 export default function CalendarPanel() {
   const today = new Date();
   const todayStr = isoDate(today.getFullYear(), today.getMonth(), today.getDate());
@@ -267,6 +443,9 @@ export default function CalendarPanel() {
 
   return (
     <div className="w-full max-w-full overflow-hidden min-w-0 space-y-3 select-none">
+      {/* ── Live Campus Weather ──────────────────────────────────────────── */}
+      <WeatherCard />
+
       {/* ── Next Exam Banner ─────────────────────────────────────────────── */}
       {nextExam && (
         <div className="rounded-xl border border-purple-200 dark:border-purple-800 bg-purple-50 dark:bg-purple-900/20 p-3 flex items-center gap-3">
