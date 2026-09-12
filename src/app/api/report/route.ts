@@ -29,8 +29,9 @@ export async function POST(req: NextRequest) {
       message: body.message.trim(),
     };
 
-    // 1. Persist locally to data/reports.json as guaranteed server-side archive
-    try {
+    // 1. Persist locally to data/reports.json (skipped on Vercel — read-only FS;
+    //    email dispatch below is the durable channel there)
+    if (!process.env.VERCEL) try {
       const dataDir = path.join(process.cwd(), "data");
       if (!fs.existsSync(dataDir)) {
         fs.mkdirSync(dataDir, { recursive: true });

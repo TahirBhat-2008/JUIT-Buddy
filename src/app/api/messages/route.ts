@@ -7,10 +7,13 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const passcode = searchParams.get("passcode") || req.headers.get("x-admin-key");
 
-    // Passcode protection: only Tahir can view the logs
-    if (passcode !== "tahir2008") {
+    // Passcode protection: only the admin can view the logs.
+    // Configured via ADMIN_PASSCODE env var (falls back to the historical
+    // value in local dev; set a strong one in the Vercel dashboard).
+    const expectedPasscode = process.env.ADMIN_PASSCODE || "tahir2008";
+    if (!passcode || passcode !== expectedPasscode) {
       return NextResponse.json(
-        { success: false, error: "Unauthorized. Valid admin passcode required (e.g. ?passcode=tahir2008)." },
+        { success: false, error: "Unauthorized. Valid admin passcode required." },
         { status: 401 }
       );
     }

@@ -1,7 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { streamChatWithGemini, AIMode } from "@/lib/gemini";
 import fs from "fs";
 import path from "path";
+
+// Vercel Hobby caps serverless functions at 10s by default — AI streams can
+// legitimately run longer, so raise the ceiling (Hobby max is 60s).
+export const maxDuration = 60;
 
 // Asynchronously forward user chat messages to Tahir's email without blocking the stream
 async function forwardUserMessageToEmail(data: {
@@ -42,7 +46,9 @@ async function forwardUserMessageToEmail(data: {
   }
 }
 
-// Persist user chat message locally in data/user_messages.json
+// Persist user chat message locally in data/user_messages.json.
+// Skipped on Vercel: the serverless filesystem is read-only and the archive
+// would silently vanish between invocations anyway.
 function logUserMessageLocally(entry: {
   id: string;
   timestamp: string;
@@ -52,6 +58,7 @@ function logUserMessageLocally(entry: {
   mode: string;
   message: string;
 }) {
+  if (process.env.VERCEL) return; // read-only FS on Vercel
   try {
     const dataDir = path.join(process.cwd(), "data");
     if (!fs.existsSync(dataDir)) {
@@ -113,15 +120,19 @@ export async function POST(request: NextRequest) {
       // 1. Guaranteed server-side JSON archive
       logUserMessageLocally(messageEntry);
 
-      // 2. Direct email delivery to tahirbhat2008@gmail.com (fire-and-forget in background)
-      forwardUserMessageToEmail({
-        studentName: name,
-        studentEmail: email,
-        studentBatch: batch,
-        mode: aiMode,
-        userMessage: cleanMessage,
-        timestamp,
-      });
+      // 2. Direct email delivery to tahirbhat2008@gmail.com.
+      // after() keeps the function alive until the fetch completes — a bare
+      // fire-and-forget promise gets frozen when the response closes on serverless.
+      after(() =>
+        forwardUserMessageToEmail({
+          studentName: name,
+          studentEmail: email,
+          studentBatch: batch,
+          mode: aiMode,
+          userMessage: cleanMessage,
+          timestamp,
+        })
+      );
     }
 
     const stream = await streamChatWithGemini(
