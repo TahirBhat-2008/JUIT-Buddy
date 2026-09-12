@@ -26,7 +26,7 @@ import {
 } from "@/lib/campusMap";
 import BusTimetable from "@/components/BusTimetable";
 
-type MapTab = "map" | "routes" | "floors" | "nearby" | "transit";
+type MapTab = "map" | "routes" | "floors" | "nearby" | "transit" | "tour";
 type MapViewType = "google" | "schematic" | "osm";
 type MapFocusMode = "all" | "hostels" | "roads";
 
@@ -56,6 +56,16 @@ const FLOOR_CHIPS: Array<{ id: FilterFloor; label: string; code: string; tag: st
   { id: 4, label: "4th Floor", code: "4th Floor (L4)", tag: "CR-18–25, TR-5–6, Seminar" },
 ];
 
+// ── JUIT 360° Virtual Tour — real 4K 360° walkthroughs (drag/pan inside the video) ──
+const TOUR_VIDEOS: Array<{ id: string; label: string; icon: string; desc: string }> = [
+  { id: "vzJCIIhHvM0", label: "Auditorium",  icon: "🎭", desc: "360° inside the JUIT Auditorium — OAT events, fests & seminars" },
+  { id: "zmkhvs1FPBs", label: "Campus Walk I",  icon: "🚶", desc: "Part 2 — central walkways, academic block surroundings & terraces" },
+  { id: "6xkXTnzRSLE", label: "Campus Walk II", icon: "🚶", desc: "Part 3 — more of the campus in 4K 360°" },
+  { id: "ckKbVKs2Luk", label: "Campus Walk III", icon: "🚶", desc: "Part 4 — full-circle campus views in 4K" },
+  { id: "7-ATHSKxtNc", label: "Campus Walk IV",  icon: "🚶", desc: "Part 5 — sweeping 360° panoramas of JUIT" },
+  { id: "dLYagWPOSiM", label: "Snowfall ❄️",    icon: "🏔️", desc: "Part 6 — JUIT during & after snowfall (a winter must-see!)" },
+];
+
 const HOSTEL_LIST = [
   { id: "azad", name: "Azad Bhawan", code: "H-14", tag: "1st Yr Boys" },
   { id: "shastri", name: "Shastri Bhawan", code: "H-1 to H-11", tag: "Senior Boys" },
@@ -72,6 +82,7 @@ export default function CampusMap() {
   const [selectedCategory, setSelectedCategory] = useState<FilterCategory>("all");
   const [selectedFloor, setSelectedFloor] = useState<FilterFloor>("all");
   const [selectedId, setSelectedId] = useState<string>("academic-block");
+  const [tourVideoId, setTourVideoId] = useState<string>(TOUR_VIDEOS[0].id);
 
   // Route Finder State
   const [fromPlaceId, setFromPlaceId] = useState<string>("azad");
@@ -287,6 +298,18 @@ export default function CampusMap() {
         >
           <span>🚌</span>
           <span>Buses<span className="hidden sm:inline"> &amp; Transit</span></span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab("tour")}
+          className={`flex-1 min-w-fit py-1.5 px-2 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1 sm:gap-1.5 cursor-pointer whitespace-nowrap ${
+            activeTab === "tour"
+              ? "bg-white dark:bg-gray-900 text-fuchsia-600 dark:text-fuchsia-400 shadow-xs scale-102"
+              : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+          }`}
+        >
+          <span>🔄</span>
+          <span>360°<span className="hidden sm:inline"> Tour</span></span>
         </button>
       </div>
 
@@ -1751,6 +1774,79 @@ export default function CampusMap() {
                 );
               })
             )}
+          </div>
+        </div>
+      )}
+
+      {/* ── TAB 1.5: JUIT 360° VIRTUAL TOUR ── */}
+      {activeTab === "tour" && (
+        <div className="space-y-3 fade-slide-in">
+          {/* Header */}
+          <div className="rounded-xl border border-fuchsia-200/70 dark:border-fuchsia-800/60 bg-gradient-to-r from-fuchsia-50 via-purple-50 to-indigo-50 dark:from-fuchsia-950/30 dark:via-purple-950/30 dark:to-indigo-950/30 p-3">
+            <div className="flex items-center gap-2">
+              <span className="text-xl">🔄</span>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-sm font-extrabold text-gray-900 dark:text-white leading-tight">
+                  JUIT 360° Virtual Tour
+                </h3>
+                <p className="text-[11px] text-gray-600 dark:text-gray-300 leading-snug mt-0.5">
+                  Real 4K 360° walkthroughs — <span className="font-bold">drag inside the video</span> to look around, or tap the 🔄 card icon / move your phone to explore.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Video selector chips */}
+          <div className="flex flex-wrap gap-1.5">
+            {TOUR_VIDEOS.map((v) => (
+              <button
+                key={v.id}
+                onClick={() => setTourVideoId(v.id)}
+                title={v.desc}
+                className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer active:scale-95 whitespace-nowrap ${
+                  tourVideoId === v.id
+                    ? "bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-md shadow-fuchsia-500/25 scale-105"
+                    : "bg-white/80 dark:bg-gray-800/80 text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800 border border-gray-200/70 dark:border-gray-700/70"
+                }`}
+              >
+                <span aria-hidden>{v.icon}</span>
+                <span>{v.label}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Active video description */}
+          <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400 -mt-1 px-0.5">
+            {TOUR_VIDEOS.find((v) => v.id === tourVideoId)?.desc}
+          </p>
+
+          {/* 360° player — YouTube supports native drag-to-pan for 360° videos */}
+          <div className="relative rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-lg bg-black">
+            <iframe
+              key={tourVideoId}
+              title="JUIT 360° Virtual Tour Video"
+              src={`https://www.youtube.com/embed/${tourVideoId}?rel=0`}
+              className="w-full h-56 sm:h-64 border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+              loading="lazy"
+            />
+          </div>
+
+          {/* Tip + playlist link */}
+          <div className="flex items-center justify-between gap-2 flex-wrap text-[11px]">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-fuchsia-50 dark:bg-fuchsia-950/40 text-fuchsia-700 dark:text-fuchsia-300 font-semibold border border-fuchsia-200/70 dark:border-fuchsia-800/70">
+              📱 Best on phone: move your device to look around
+            </span>
+            <a
+              href="https://www.youtube.com/playlist?list=PLvvBs_YBMqqDgDeuK8Pg0qrkxJPgwMsPz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 font-semibold border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            >
+              🎬 Full 360° Playlist <span>↗</span>
+            </a>
           </div>
         </div>
       )}
